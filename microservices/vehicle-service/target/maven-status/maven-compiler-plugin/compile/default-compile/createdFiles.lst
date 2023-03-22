@@ -1,0 +1,5 @@
+com\roadpricing\vehicle\Model\Vehicle.class
+com\roadpricing\vehicle\Service\VehicleService.class
+com\roadpricing\vehicle\VehicleApplication.class
+com\roadpricing\vehicle\Repo\VehicleRepo.class
+com\roadpricing\vehicle\Controller\VehicleController.class

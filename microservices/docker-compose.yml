@@ -1,0 +1,37 @@
+version: '3.8'
+services:
+  vehicle-service:
+    container_name: vehicle-service
+    build:
+      context: vehicle-service/
+      dockerfile: Dockerfile
+    networks:
+      - spring-net
+    restart: "no"
+    depends_on:
+      - roadpricing-mysql
+    image: vehicle-service:latest
+    ports:
+      - 8080:8080
+
+  roadpricing-mysql:
+    container_name: roadpricing-DB
+    image: mysql:latest
+    ports:
+      - 3306:3306
+    networks:
+      - spring-net
+    environment:
+      - MYSQL_ROOT_PASSWORD=Teun
+      - MYSQL_DATABASE=vehicle
+    volumes:
+      - vehicledata:/var/lib/mysql
+      - vehicledata:/etc/mysql/conf.d
+
+networks:
+  spring-net:
+    name: spring-net
+    driver: bridge
+
+volumes:
+  vehicledata:
