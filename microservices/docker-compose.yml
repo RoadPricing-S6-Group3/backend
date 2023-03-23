@@ -14,6 +14,18 @@ services:
     ports:
       - 8080:8080
 
+  user-service:
+    container_name: user-service
+    build:
+      context: user-service/
+      dockerfile: Dockerfile
+    networks:
+      - spring-net
+    restart: "no"
+    image: user-service:latest
+    ports:
+      - 8082:8082
+
   roadpricing-mysql:
     container_name: roadpricing-DB
     image: mysql:latest
