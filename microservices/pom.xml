@@ -11,6 +11,7 @@
 
   <modules>
     <module>vehicle-service</module>
+    <module>invoice-service</module>
   </modules>
 
   <name>microservices</name>
