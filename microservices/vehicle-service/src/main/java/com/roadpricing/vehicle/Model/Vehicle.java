@@ -30,4 +30,30 @@ public class Vehicle {
 
     @Column(name="ownderId")
     private Long ownerId;
+
+    //Getters & Setters
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getVehicleModel() {
+        return vehicleModel;
+    }
+
+    public String getLicense() {
+        return license;
+    }
+
+    public String getEfficiencyLabel() {
+        return efficiencyLabel;
+    }
+
+    public String getFuelType() {
+        return fuelType;
+    }
+
+    public Long getOwnerId() {
+        return ownerId;
+    }
 }

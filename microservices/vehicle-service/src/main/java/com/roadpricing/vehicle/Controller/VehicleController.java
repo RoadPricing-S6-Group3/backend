@@ -76,4 +76,34 @@ public class VehicleController {
             return ResponseEntity.badRequest().body(null);
         }
     }
+    @PostMapping("/save")
+    public ResponseEntity<Vehicle> saveVehicle(@RequestBody Vehicle vehicle){
+        try{
+            service.saveVehicle(vehicle);
+            return ResponseEntity.ok().body(vehicle);
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+    @PutMapping("/update")
+    public ResponseEntity<Vehicle> updateVehicle(@RequestBody Vehicle vehicle){
+        try{
+            service.updateVehicle(vehicle);
+            return ResponseEntity.ok().body(vehicle);
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity deleteVehicle(@PathVariable(value = "id") Long id){
+        try{
+            service.deleteVehicle(id);
+            return ResponseEntity.ok().build();
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }
