@@ -66,8 +66,8 @@ public class VehicleController {
             return ResponseEntity.badRequest().body(null);
         }
     }
-    @GetMapping("/fuel/{fueltype}")
-    public ResponseEntity<List<Vehicle>>getVehicleByOwnerId(@PathVariable(value = "ownerId")String fuelType){
+    @GetMapping("/fuel/{fuelType}")
+    public ResponseEntity<List<Vehicle>>getVehicleByFuelType(@PathVariable(value = "fuelType")String fuelType){
         try{
             List<Vehicle> vehicles = service.findByFuelType(fuelType);
             return ResponseEntity.ok().body(vehicles);
