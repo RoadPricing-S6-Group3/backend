@@ -16,14 +16,13 @@ public class VehicleController {
     VehicleService service;
 
     @GetMapping("/test")
-    public ResponseEntity<String> getAllVehicles (){
+    public ResponseEntity<List<Vehicle>> getAllVehicles (){
         try{
-            String vehicles = "This will be the vehicles list";
+            List<Vehicle> vehicles = service.findAll();
             return ResponseEntity.ok().body(vehicles);
         }
         catch (Exception e){
-            String warn = "Could not find Cars or request is invalid";
-            return ResponseEntity.badRequest().body(warn);
+            return ResponseEntity.badRequest().build();
         }
     }
     @GetMapping("/id/{id}")

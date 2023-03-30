@@ -13,6 +13,10 @@ public class VehicleService {
     @Autowired
     VehicleRepo repo;
 
+    public List<Vehicle> findAll(){
+        List<Vehicle> vehicles = repo.findAll();
+        return vehicles;
+    }
     public Vehicle findById(Long id){
         Vehicle vehicle = repo.findById(id).orElse(null);
         return vehicle;
