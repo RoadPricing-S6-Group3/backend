@@ -16,7 +16,7 @@ public class VehicleController {
     @Autowired
     VehicleService service;
 
-    @GetMapping("/test")
+    @GetMapping()
     public ResponseEntity<List<Vehicle>> getAllVehicles (){
         try{
             List<Vehicle> vehicles = service.findAll();
