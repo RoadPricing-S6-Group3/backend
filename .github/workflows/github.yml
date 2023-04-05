@@ -14,7 +14,7 @@
             java-version: '17'
             distribution: 'temurin'
         - name: Build with Maven
-          run: mvn package --file vehicle-service/pom.xml
+          run: mvn -B package -DskipTests --file vehicle-service/pom.xml
         - name: Test with Maven
           run: mvn -B test --file vehicle-service/pom.xml
 
