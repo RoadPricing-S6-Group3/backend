@@ -5,7 +5,7 @@
       branches: [ main ]
 
   jobs:
-    build:
+    build-vehicle-service:
       runs-on: ubuntu-latest
       steps:
         - uses: actions/checkout@v2
@@ -15,6 +15,42 @@
             java-version: '17'
             distribution: 'temurin'
         - name: Build with Maven
-          run: mvn -B package --file microservices/pom.xml
+          run: mvn -B package --file microservices/vehicle-service/pom.xml
+
+    # build-user-service:
+    #   runs-on: ubuntu-latest
+    #   steps:
+    #     - uses: actions/checkout@v2
+    #     - name: Setup JDK 17
+    #       uses: actions/setup-java@v2
+    #       with:
+    #         java-version: '17'
+    #         distribution: 'temurin'
+    #     - name: Build with Maven
+    #       run: mvn -B package --file microservices/user-service/pom.xml
+
+      build-invoice-service:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v2
+        - name: Setup JDK 17
+          uses: actions/setup-java@v2
+          with:
+            java-version: '17'
+            distribution: 'temurin'
+        - name: Build with Maven
+          run: mvn -B package --file microservices/invoice-service/pom.xml
+
+      # build-traveldata-service:
+      # runs-on: ubuntu-latest
+      # steps:
+      #   - uses: actions/checkout@v2
+      #   - name: Setup JDK 17
+      #     uses: actions/setup-java@v2
+      #     with:
+      #       java-version: '17'
+      #       distribution: 'temurin'
+      #   - name: Build with Maven
+      #     run: mvn -B package --file microservices/traveldata-service/pom.xml
 
 
