@@ -1,8 +1,7 @@
  name: build vehicle service
  
-on:
-  push:
-    branches:
+on: push
+  branches:
     - "Vehicle-Service"
 
 jobs:
