@@ -1,8 +1,8 @@
  name: build vehicle service
- 
-on: push
-  branches:
-    - "Vehicle-Service"
+on: 
+  pull_request:
+    branches:
+      - "Vehicle-Service"
 
 jobs:
   build-vehicle-service:
