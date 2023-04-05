@@ -2,6 +2,7 @@ package com.roadpricing.invoice.Controller;
 
 import com.roadpricing.invoice.Model.Invoice;
 import com.roadpricing.invoice.Service.InvoiceService;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,9 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RequestMapping("api/invoice")
 public class InvoiceController {
+
+    @Autowired
+    RabbitTemplate rabbitTemplate;
 
     @Autowired
     InvoiceService service;
@@ -42,6 +46,8 @@ public class InvoiceController {
     public ResponseEntity<Invoice> createInvoice(@RequestBody Invoice invoice){
         try {
             service.saveInvoice(invoice);
+            //Sends the created invoice to the queue
+            rabbitTemplate.convertAndSend(invoice);
             return ResponseEntity.ok().body(invoice);
         }
         catch (Exception e){
