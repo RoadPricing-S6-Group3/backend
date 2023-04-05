@@ -46,6 +46,8 @@ services:
     networks:
       - spring-net
     restart: "no"
+    depends_on:
+      - roadpricing-mysql
     image: traveldata-service:latest
     ports:
       - 8085:8085

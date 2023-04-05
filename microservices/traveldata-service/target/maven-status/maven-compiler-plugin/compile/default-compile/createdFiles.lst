@@ -1,0 +1,5 @@
+com\roadpricing\traveldata\Service\TravelDataService.class
+com\roadpricing\traveldata\TravelDataApplication.class
+com\roadpricing\traveldata\Repo\TravelDataRepo.class
+com\roadpricing\traveldata\Model\TravelData.class
+com\roadpricing\traveldata\Controller\TravelDataController.class

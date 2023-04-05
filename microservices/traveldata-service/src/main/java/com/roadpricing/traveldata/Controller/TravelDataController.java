@@ -37,4 +37,37 @@ public class TravelDataController {
             return ResponseEntity.badRequest().body(null);
         }
     }
+
+    @PostMapping()
+    public ResponseEntity<TravelData> post(@RequestBody TravelData travelData){
+        try{
+            service.post(travelData);
+            return ResponseEntity.ok().body(travelData);
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PutMapping()
+    public ResponseEntity<TravelData> put(@RequestBody TravelData travelData){
+        try{
+            service.put(travelData);
+            return ResponseEntity.ok().body(travelData);
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity delete(@PathVariable(value = "id") Long id){
+        try{
+            service.delete(id);
+            return ResponseEntity.ok().build();
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }
