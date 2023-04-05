@@ -1,5 +1,4 @@
   name: build services
-
   on:
     push:
       branches: [ main ]
@@ -17,7 +16,6 @@
             distribution: 'temurin'
         - name: Build with Maven
           run: mvn -B package --file microservices/vehicle-service/pom.xml
-
     build-user-service:
       name: Build user service
       runs-on: ubuntu-latest
@@ -30,7 +28,6 @@
             distribution: 'temurin'
         - name: Build with Maven
           run: mvn -B package --file microservices/user-service/pom.xml
-
       build-invoice-service:
         name: Build invoice service
         runs-on: ubuntu-latest
@@ -43,7 +40,6 @@
               distribution: 'temurin'
           - name: Build with Maven
             run: mvn -B package --file microservices/invoice-service/pom.xml
-
       # build-traveldata-service:
       # runs-on: ubuntu-latest
       # steps:
