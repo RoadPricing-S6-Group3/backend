@@ -1,8 +1,9 @@
   name: build services
+
   on:
     push:
-      - main
-      - vehicle-service
+      branches: [ main ]
+      
   jobs:
     build:
       runs-on: ubuntu-latest
