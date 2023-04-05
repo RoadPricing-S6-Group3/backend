@@ -51,11 +51,10 @@ public class InvoiceController {
 
     @PutMapping("{id}")
     public ResponseEntity<Invoice> updateInvoice(@PathVariable("id") Long invoiceId,
-                                                 @RequestBody Invoice invoice){
+                                                 @RequestBody Invoice invoiceToUpdate){
         try{
-            Invoice invoiceToUpdate = service.findById(invoiceId).get();
-            service.updateInvoice(invoiceToUpdate);
-            return ResponseEntity.ok().body(invoice);
+            Invoice updatedInvoice = service.updateInvoice(invoiceToUpdate);
+            return ResponseEntity.ok().body(updatedInvoice);
         }
         catch (Exception e){
             return ResponseEntity.badRequest().build();

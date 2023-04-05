@@ -13,7 +13,4 @@ public interface InvoiceRepo extends JpaRepository<Invoice, Long> {
 
     Optional<Invoice> findById(Long id);
     List<Invoice> findAll();
-    Invoice saveInvoice(Invoice invoice);
-    Invoice updateInvoice(Invoice invoice);
-    void deleteInvoice(Long invoiceId);
 }
