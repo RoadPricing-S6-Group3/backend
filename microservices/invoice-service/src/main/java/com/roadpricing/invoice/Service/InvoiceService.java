@@ -34,17 +34,16 @@ public class InvoiceService {
     }
 
     public Invoice updateInvoice(Invoice newInvoice){
-        if(repo.findById(newInvoice.getId()) != null){
-            Invoice oldInvoice = repo.findById(newInvoice.getId()).get();
-
-            oldInvoice.setAmountToPay(newInvoice.getAmountToPay());
-            oldInvoice.setRouteId(newInvoice.getRouteId());
-            oldInvoice.setUserId(newInvoice.getUserId());
-
-            repo.save(oldInvoice);
+        Invoice oldInvoice = repo.findById(newInvoice.getId()).orElse(null);
+        if(oldInvoice != null){
+//            Invoice oldInvoice = repo.findById(newInvoice.getId()).get();
+//
+//            oldInvoice.setAmountToPay(newInvoice.getAmountToPay());
+//            oldInvoice.setRouteId(newInvoice.getRouteId());
+//            oldInvoice.setUserId(newInvoice.getUserId());
+            return repo.save(newInvoice);
         }
-
-        return newInvoice;
+        return null;
     }
 
     public void deleteInvoice(Long invoiceId){
