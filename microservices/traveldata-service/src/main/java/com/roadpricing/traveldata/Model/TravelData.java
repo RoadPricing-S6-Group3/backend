@@ -14,7 +14,7 @@ public class TravelData {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="routeId")
+    @Column(name="route_id")
     private Long routeId;
 
     //Getters & Setters
