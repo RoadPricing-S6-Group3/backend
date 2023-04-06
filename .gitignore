@@ -6,6 +6,7 @@ microservices/.idea/runConfigurations.xml
 microservices/.idea/misc.xml
 microservices/.idea/misc.xml
 microservices/.idea/runConfigurations.xml
-microservices/.idea*
+microservices/.idea/*
+microservices/.idea
 .idea
 .idea/*
