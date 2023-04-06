@@ -28,7 +28,7 @@ public class TravelDataController {
     }
 
     @GetMapping("/route/{routeId}")
-    public ResponseEntity<List<TravelData>> getVehicleByOwnerId(@PathVariable(value = "routeId")Long routeId){
+    public ResponseEntity<List<TravelData>> getAllByRouteId(@PathVariable(value = "routeId")Long routeId){
         try{
             List<TravelData> travelDataList = service.findAllByRouteId(routeId);
             return ResponseEntity.ok().body(travelDataList);
