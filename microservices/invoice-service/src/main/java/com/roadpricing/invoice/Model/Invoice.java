@@ -1,12 +1,9 @@
 package com.roadpricing.invoice.Model;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serial;
 import java.io.Serializable;
 
 import static org.hibernate.type.EnumType.ENUM;
@@ -30,8 +27,9 @@ public class Invoice implements Serializable {
     @Column(name = "amountToPay")
     Long amountToPay;
 
-    @Column(name = "paymentStatus", columnDefinition = "enum('PAID', 'UNPAID', 'PENDING') default 'unpaid'")
-    private PaymentStatus status;
+    @Column(name = "paymentStatus", columnDefinition = "ENUM('PAID', 'UNPAID', 'PENDING') default 'UNPAID'")
+    @Enumerated(EnumType.STRING)
+    PaymentStatus paymentStatus;
 
     //Getters and setters
     public Long getId() {
@@ -64,5 +62,13 @@ public class Invoice implements Serializable {
 
     public void setAmountToPay(Long amountToPay) {
         this.amountToPay = amountToPay;
+    }
+
+    public PaymentStatus getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(PaymentStatus paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
 }

@@ -1,6 +1,7 @@
 package com.roadpricing.invoice.Service;
 
 import com.roadpricing.invoice.Model.Invoice;
+import com.roadpricing.invoice.Model.PaymentStatus;
 import com.roadpricing.invoice.Repo.InvoiceRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,13 @@ public class InvoiceService {
         return invoiceList;
     }
     public void saveInvoice(Invoice invoice){
-        repo.save(invoice);
+        if(invoice.getPaymentStatus() == null){
+            invoice.setPaymentStatus(PaymentStatus.UNPAID);
+            repo.save(invoice);
+        }
+        else{
+            repo.save(invoice);
+        }
     }
 
     public Invoice updateInvoice(Invoice newInvoice){
