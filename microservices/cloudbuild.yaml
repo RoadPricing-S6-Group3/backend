@@ -14,7 +14,7 @@ steps:
 
   # Step 4: Deploy the Docker image to Kubernetes
   - name: 'gcr.io/cloud-builders/kubectl'
-    args: ['apply', '-f', 'microservices/kubernetes/deployment.yaml']
+    args: ['apply', '-f', 'microservices/vehicle-service/kubernetes/deployment.yaml']
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=europe-west1'
       - 'CLOUDSDK_CONTAINER_CLUSTER=autopilot-cluster-1'
