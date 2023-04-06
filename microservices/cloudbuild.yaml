@@ -6,7 +6,7 @@ steps:
 
   # Step 2: Docker Build - Specify the tag (service name) and folder where to adress the build
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/graphic-matrix-308512/vehicle-service:latest', '/vehicle-service']
+    args: ['build', '-t', 'gcr.io/graphic-matrix-308512/vehicle-service:latest', 'microservices/vehicle-service']
 
   # Step 3: Docker Push
   - name: 'gcr.io/cloud-builders/docker'
@@ -14,7 +14,7 @@ steps:
 
   # Step 4: Deploy the Docker image to Kubernetes
   - name: 'gcr.io/cloud-builders/kubectl'
-    args: ['apply', '-f', 'kubernetes/deployment.yaml']
+    args: ['apply', '-f', 'microservices/kubernetes/deployment.yaml']
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=europe-west1'
       - 'CLOUDSDK_CONTAINER_CLUSTER=autopilot-cluster-1'
