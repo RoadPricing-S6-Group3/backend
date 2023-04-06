@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: autopilot-cluster-1
-          image: gcr.io/graphic-matrix-308512/gcloud-poc:latest
+          image: gcr.io/graphic-matrix-308512/vehicle-service:latest
           ports:
             - containerPort: 8080
 ---
