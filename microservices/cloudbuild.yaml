@@ -2,7 +2,7 @@ steps:
   # Step 1: Maven package
   # This should cover all of the microservices using the Pom in the root folder
   - name: 'gcr.io/cloud-builders/mvn'
-    args: ['clean', 'package', '-f', '/microservices/']
+    args: ['clean', 'package', '-f', 'microservices/pom.xml']
 
   # Step 2: Docker Build - Specify the tag (service name) and folder where to adress the build
   - name: 'gcr.io/cloud-builders/docker'
