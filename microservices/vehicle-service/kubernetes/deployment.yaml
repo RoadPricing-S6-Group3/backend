@@ -42,7 +42,8 @@ spec:
     - http:
         paths:
           - path: /*
-            Backend:
+            pathType: Prefix
+            backend:
               service:
                 name: vehicle-service-deployment
                 port:
