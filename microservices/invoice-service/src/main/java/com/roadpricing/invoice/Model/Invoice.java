@@ -1,6 +1,5 @@
 package com.roadpricing.invoice.Model;
 
-import com.roadpricing.invoice.Enums.PaymentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,7 +31,7 @@ public class Invoice implements Serializable {
     Long amountToPay;
 
     @Column(name = "paymentStatus", columnDefinition = "enum('PAID', 'UNPAID', 'PENDING') default 'unpaid'")
-    Enum<PaymentStatus.Status> status;
+    private PaymentStatus status;
 
     //Getters and setters
     public Long getId() {
