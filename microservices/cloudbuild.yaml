@@ -1,37 +1,23 @@
 steps:
   # Step 1: Maven package
+  # This should cover all of the microservices using the Pom in the root folder
   - name: 'gcr.io/cloud-builders/mvn'
     args: ['clean', 'package']
 
-  # Step 2: Docker Build
+  # Step 2: Docker Build - Specify the tag (service name) and folder where to adress the build
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build',
-           '-t',
-           'gcr.io/graphic-matrix-308512/gcloud-poc:latest',
-           '.']
+    args: ['build', '-t', 'gcr.io/graphic-matrix-308512/vehicle-service:latest', '/vehicle-service']
 
   # Step 3: Docker Push
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push',
-           'gcr.io/graphic-matrix-308512/gcloud-poc:latest']
-
-  #  # deploy container image to GKE
-  #  - name: "gcr.io/cloud-builders/gke-deploy"
-  #    args:
-  #      - run
-  #      - --filename=kubernetes-resource-file
-  #      - --image=gcr.io/graphic-matrix-308512/gcloud-poc:latest
-  #      - --location=europe-west1
-  #      - --cluster=autopilot-cluster-1
+    args: ['push', 'gcr.io/graphic-matrix-308512/vehicle-service:latest']
 
   # Step 4: Deploy the Docker image to Kubernetes
-
   - name: 'gcr.io/cloud-builders/kubectl'
-    args: ['apply', '-f', 'kubernetes/deployment.yaml'
-    ]
+    args: ['apply', '-f', 'kubernetes/deployment.yaml']
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=europe-west1'
       - 'CLOUDSDK_CONTAINER_CLUSTER=autopilot-cluster-1'
 
-images: ['gcr.io/graphic-matrix-308512/gcloud-poc:latest']
+images: ['gcr.io/graphic-matrix-308512/vehicle-service:latest']
 timeout: '1800s'

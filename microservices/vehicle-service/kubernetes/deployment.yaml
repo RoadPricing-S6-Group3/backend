@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: microservice-deployment
+  name: vehicle-service-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: microservices
+      app: vehicle-service-deployment
   template:
     metadata:
       labels:
-        app: microservices
+        app: vehicle-service-deployment
     spec:
       containers:
         - name: autopilot-cluster-1
@@ -21,7 +21,7 @@ spec:
 apiVersion: "v1"
 kind: "Service"
 metadata:
-  name: cloud-poc-app
+  name: vehicle-service-deployment
   namespace: "default"
 spec:
   type: LoadBalancer
@@ -30,12 +30,12 @@ spec:
       port: 80
       targetPort: 8080
   selector:
-    app: cloud-poc-app
+    app: vehicle-service-deployment
 ---
 apiVersion: "networking.k8s.io/v1"
 kind: "Ingress"
 metadata:
-  name: cloud-poc-app
+  name: vehicle-service-deployment
   namespace: "default"
 spec:
   rules:
@@ -44,6 +44,6 @@ spec:
           - path: /*
             defaultBackend:
               service:
-                name: cloud-poc-app
+                name: vehicle-service-deployment
                 port:
                   number: 80
