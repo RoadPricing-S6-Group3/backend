@@ -2,7 +2,7 @@ package com.roadpricing.invoice.Enums;
 
 public class PaymentStatus {
 
-    enum Status {
+    public enum Status {
         UNPAID("Unpaid"),
         PENDING("Pending"),
         PAID("Paid");
