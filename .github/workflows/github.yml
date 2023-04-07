@@ -19,7 +19,7 @@
             distribution: 'temurin'
 
       name: Cache the Maven packages to speed up build
-      uses: actions/cache@v1
+      uses: actions/cache@v2
       with:
         path: ~/.m2
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
@@ -64,7 +64,7 @@
             distribution: 'temurin'
 
       name: Cache the Maven packages to speed up build
-      uses: actions/cache@v1
+      uses: actions/cache@v2
       with:
         path: ~/.m2
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
@@ -100,7 +100,7 @@
             distribution: 'temurin'
 
       name: Cache the Maven packages to speed up build
-      uses: actions/cache@v1
+      uses: actions/cache@v2
       with:
         path: ~/.m2
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
@@ -136,7 +136,7 @@
             distribution: 'temurin'
 
       name: Cache the Maven packages to speed up build
-      uses: actions/cache@v1
+      uses: actions/cache@v2
       with:
         path: ~/.m2
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
