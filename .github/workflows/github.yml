@@ -60,6 +60,7 @@
           run: mvn -B package --file microservices/traveldata-service/pom.xml
 
     build-and-push-images:
+      needs: [ build-vehicle-service ]
       name: build-and-push-images
       runs-on: self-hosted
       permissions:
