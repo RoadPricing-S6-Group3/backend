@@ -1,10 +1,10 @@
-  name: build services
+  name: build services and push img
   on:
     push:
       branches: [ main ]
 
-env:
-  REGISTRY: ghcr.io
+  env:
+    REGISTRY: ghcr.io
 
   jobs:
     build-vehicle-service:
@@ -58,5 +58,31 @@ env:
             distribution: 'temurin'
         - name: Build with Maven
           run: mvn -B package --file microservices/traveldata-service/pom.xml
+
+    build-and-push-images:
+      name: build-and-push-images
+      runs-on: self-hosted
+      permissions:
+        contents: read
+        packages: write
+      
+      steps:
+        - name: Checkout Repository
+          uses: actions/checkout@v3
+
+        - name: Login To Registry
+          uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+          with:
+            registry: ${{env.REGISTRY}}
+            username: ${{github.actor}}
+            password: ${{ secrets.GITHUB_TOKEN }}
+
+        - name: Build & Push Vehicle-Service
+          uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+          with:
+            file: ./microservices/vehicle-service/Dockerfile
+            context: .
+            push: true
+            tags: ${{ env.REGISTRY }}/roadpricing-s6-group3/vehicle-service:latest
 
 
