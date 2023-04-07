@@ -12,7 +12,6 @@
       runs-on: self-hosted
       steps:      
         - name: Setup JDK 17
-        - uses: actions/checkout@v2
           uses: actions/setup-java@v2
           with:
             java-version: '17'
@@ -33,6 +32,7 @@
             password: ${{ secrets.GITHUB_TOKEN }}
 
         - name: Build with Maven
+          uses: actions/checkout@v2
           run: mvn -B package --file microservices/vehicle-service/pom.xml
 
         - name: Cache Maven Package
@@ -56,7 +56,6 @@
       name: Build user service
       runs-on: self-hosted
       steps:
-        - uses: actions/checkout@v2
         - name: Setup JDK 17
           uses: actions/setup-java@v2
           with:
@@ -71,6 +70,7 @@
             restore-keys: ${{ runner.os }}-m2  
 
         - name: Build with Maven
+          uses: actions/checkout@v2
           run: mvn -B package --file microservices/user-service/pom.xml
             
         - name: Login To Registry
@@ -92,7 +92,6 @@
       name: Build invoice service
       runs-on: self-hosted
       steps:
-        - uses: actions/checkout@v2
         - name: Setup JDK 17
           uses: actions/setup-java@v2
           with:
@@ -114,6 +113,7 @@
             password: ${{ secrets.GITHUB_TOKEN }}
 
         - name: Build with Maven
+          uses: actions/checkout@v2
           run: mvn -B package --file microservices/invoice-service/pom.xml
 
         - name: Build & Push Invoice-Service
@@ -128,7 +128,6 @@
       name: Build traveldata service
       runs-on: self-hosted
       steps:
-        - uses: actions/checkout@v2
         - name: Setup JDK 17
           uses: actions/setup-java@v2
           with:
@@ -149,8 +148,8 @@
             username: ${{github.actor}}
             password: ${{ secrets.GITHUB_TOKEN }}
 
-
         - name: Build with Maven
+          uses: actions/checkout@v2
           run: mvn -B package --file microservices/traveldata-service/pom.xml
 
         - name: Build & Push TravelData-Service
