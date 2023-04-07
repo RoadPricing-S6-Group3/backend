@@ -18,12 +18,12 @@
             java-version: '17'
             distribution: 'temurin'
 
-      name: Cache the Maven packages to speed up build
-      uses: actions/cache@v2
-      with:
-        path: ~/.m2
-        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-        restore-keys: ${{ runner.os }}-m2   
+        - name: Cache the Maven packages to speed up build
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2   
 
         - name: Login To Registry
           uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
@@ -63,12 +63,12 @@
             java-version: '17'
             distribution: 'temurin'
 
-      name: Cache the Maven packages to speed up build
-      uses: actions/cache@v2
-      with:
-        path: ~/.m2
-        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-        restore-keys: ${{ runner.os }}-m2  
+        - name: Cache the Maven packages to speed up build
+          uses: actions/cache@v2
+          with:
+            path: ~/.m2
+            key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+            restore-keys: ${{ runner.os }}-m2  
 
         - name: Build with Maven
           run: mvn -B package --file microservices/user-service/pom.xml
@@ -99,12 +99,12 @@
             java-version: '17'
             distribution: 'temurin'
 
-      name: Cache the Maven packages to speed up build
-      uses: actions/cache@v2
-      with:
-        path: ~/.m2
-        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-        restore-keys: ${{ runner.os }}-m2  
+        - name: Cache the Maven packages to speed up build
+          uses: actions/cache@v2
+          with:
+            path: ~/.m2
+            key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+            restore-keys: ${{ runner.os }}-m2  
             
         - name: Login To Registry
           uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
@@ -135,12 +135,12 @@
             java-version: '17'
             distribution: 'temurin'
 
-      name: Cache the Maven packages to speed up build
-      uses: actions/cache@v2
-      with:
-        path: ~/.m2
-        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-        restore-keys: ${{ runner.os }}-m2  
+        - name: Cache the Maven packages to speed up build
+          uses: actions/cache@v2
+          with:
+            path: ~/.m2
+            key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+            restore-keys: ${{ runner.os }}-m2  
             
         - name: Login To Registry
           uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
