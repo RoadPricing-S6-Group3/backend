@@ -33,5 +33,5 @@ jobs:
           file: ./microservices/vehicle-service/Dockerfile
           context: .
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}/vehicle-service:latest
+          tags: ${{ env.REGISTRY }}/roadpricing-s6-group3/vehicle-service:latest
 
