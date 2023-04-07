@@ -7,6 +7,15 @@
     REGISTRY: ghcr.io
 
   jobs:
+
+    login:
+      name: Login To Registry
+      uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+      with:
+        registry: ${{env.REGISTRY}}
+        username: ${{github.actor}}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
     build-vehicle-service:
       name: Build vehicle service
       runs-on: self-hosted
@@ -17,8 +26,17 @@
           with:
             java-version: '17'
             distribution: 'temurin'
+
         - name: Build with Maven
           run: mvn -B package --file microservices/vehicle-service/pom.xml
+
+        - name: Build & Push Vehicle-Service
+          uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+          with:
+            file: ./microservices/vehicle-service/Dockerfile
+            context: .
+            push: true
+            tags: ${{ env.REGISTRY }}/roadpricing-s6-group3/vehicle-service:latest
 
     build-user-service:
       name: Build user service
@@ -33,6 +51,14 @@
         - name: Build with Maven
           run: mvn -B package --file microservices/user-service/pom.xml
 
+        - name: Build & Push User-Service
+          uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+          with:
+            file: ./microservices/user-service/Dockerfile
+            context: .
+            push: true
+            tags: ${{ env.REGISTRY }}/roadpricing-s6-group3/user-service:latest
+
     build-invoice-service:
       name: Build invoice service
       runs-on: self-hosted
@@ -45,6 +71,13 @@
             distribution: 'temurin'
         - name: Build with Maven
           run: mvn -B package --file microservices/invoice-service/pom.xml
+        - name: Build & Push Invoice-Service
+          uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+          with:
+            file: ./microservices/invoice-service/Dockerfile
+            context: .
+            push: true
+            tags: ${{ env.REGISTRY }}/roadpricing-s6-group3/invoice-service:latest
 
     build-traveldata-service:
       name: Build traveldata service
@@ -58,32 +91,41 @@
             distribution: 'temurin'
         - name: Build with Maven
           run: mvn -B package --file microservices/traveldata-service/pom.xml
-
-    build-and-push-images:
-      needs: [ build-vehicle-service ]
-      name: build-and-push-images
-      runs-on: self-hosted
-      permissions:
-        contents: read
-        packages: write
-      
-      steps:
-        - name: Checkout Repository
-          uses: actions/checkout@v3
-
-        - name: Login To Registry
-          uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
-          with:
-            registry: ${{env.REGISTRY}}
-            username: ${{github.actor}}
-            password: ${{ secrets.GITHUB_TOKEN }}
-
-        - name: Build & Push Vehicle-Service
+        - name: Build & Push TravelData-Service
           uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
           with:
-            file: ./microservices/vehicle-service/Dockerfile
+            file: ./microservices/traveldata-service/Dockerfile
             context: .
             push: true
-            tags: ${{ env.REGISTRY }}/roadpricing-s6-group3/vehicle-service:latest
+            tags: ${{ env.REGISTRY }}/roadpricing-s6-group3/traveldata-service:latest
+
+
+
+    # build-and-push-images:
+    #   needs: [ build-vehicle-service ]
+    #   name: build-and-push-images
+    #   runs-on: self-hosted
+    #   permissions:
+    #     contents: read
+    #     packages: write
+      
+    #   steps:
+    #     - name: Checkout Repository
+    #       uses: actions/checkout@v3
+
+    #     - name: Login To Registry
+    #       uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+    #       with:
+    #         registry: ${{env.REGISTRY}}
+    #         username: ${{github.actor}}
+    #         password: ${{ secrets.GITHUB_TOKEN }}
+
+    #     - name: Build & Push Vehicle-Service
+    #       uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+    #       with:
+    #         file: ./microservices/vehicle-service/Dockerfile
+    #         context: .
+    #         push: true
+    #         tags: ${{ env.REGISTRY }}/roadpricing-s6-group3/vehicle-service:latest
 
 
