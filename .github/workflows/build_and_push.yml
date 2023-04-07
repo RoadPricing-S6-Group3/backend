@@ -13,7 +13,7 @@ jobs:
     name: build-and-push-images
     runs-on: self-hosted
     permissions:
-      content: read
+      contents: read
       packages: write
     
     steps:
