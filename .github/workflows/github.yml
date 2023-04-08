@@ -42,105 +42,93 @@
         - name: Push Vehicle-Service Image
           working-directory: ./microservices/vehicle-service
           run: docker push ${{env.REGISTRY}}/roadpricing-s6-group3/vehicle-service:latest
+
+    build-user-service:
+      name: Build user service
+      runs-on: self-hosted
+      steps:
+        - uses: actions/checkout@v2
+        - name: Setup JDK 17
+          uses: actions/setup-java@v2
+          with:
+            java-version: '17'
+            distribution: 'temurin'
+
+        - name: Cache the Maven packages to speed up build
+          uses: actions/cache@v2
+          with:
+            path: ~/.m2
+            key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+            restore-keys: ${{ runner.os }}-m2  
+
+        - name: Build with Maven
+          run: mvn -B package --file microservices/user-service/pom.xml
           
-#         - name: Cache Maven Package
-#           uses: actions/cache@v2
-#           with:
-#             path: target
-#             key: ${{ runner.os }}-maven-target-${{ hashFiles('**/pom.xml') }}
-#             restore-keys: |
-#               ${{ runner.os }}-maven-target-
-#               ${{ runner.os }}-maven-
+        - name: Build User-Service Image
+          working-directory: ./microservices/user-service
+          run: docker build -t ${{env.REGISTRY}}/roadpricing-s6-group3/user-service:latest .
+          
+        - name: Push Vehicle-Service Image
+          working-directory: ./microservices/user-service
+          run: docker push ${{env.REGISTRY}}/roadpricing-s6-group3/user-service:latest
 
-#     build-user-service:
-#       name: Build user service
-#       runs-on: self-hosted
-#       steps:
-#         - uses: actions/checkout@v2
-#         - name: Setup JDK 17
-#           uses: actions/setup-java@v2
-#           with:
-#             java-version: '17'
-#             distribution: 'temurin'
+    build-invoice-service:
+      name: Build invoice service
+      runs-on: self-hosted
+      steps:
+        - uses: actions/checkout@v2
+        - name: Setup JDK 17
+          uses: actions/setup-java@v2
+          with:
+            java-version: '17'
+            distribution: 'temurin'
 
-#         - name: Cache the Maven packages to speed up build
-#           uses: actions/cache@v2
-#           with:
-#             path: ~/.m2
-#             key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-#             restore-keys: ${{ runner.os }}-m2  
+        - name: Cache the Maven packages to speed up build
+          uses: actions/cache@v2
+          with:
+            path: ~/.m2
+            key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+            restore-keys: ${{ runner.os }}-m2  
 
-#         - name: Build with Maven
-#           run: mvn -B package --file microservices/user-service/pom.xml
+        - name: Build with Maven
+          run: mvn -B package --file microservices/invoice-service/pom.xml
+          
+        - name: Build Invoice-Service Image
+          working-directory: ./microservices/invoice-service
+          run: docker build -t ${{env.REGISTRY}}/roadpricing-s6-group3/invoice-service:latest .
+          
+        - name: Push Invoice-Service Image
+          working-directory: ./microservices/invoice-service
+          run: docker push ${{env.REGISTRY}}/roadpricing-s6-group3/invoice-service:latest
 
-#     build-invoice-service:
-#       name: Build invoice service
-#       runs-on: self-hosted
-#       steps:
-#         - uses: actions/checkout@v2
-#         - name: Setup JDK 17
-#           uses: actions/setup-java@v2
-#           with:
-#             java-version: '17'
-#             distribution: 'temurin'
+    build-traveldata-service:
+      name: Build traveldata service
+      runs-on: self-hosted
+      steps:
+        - uses: actions/checkout@v2
+        - name: Setup JDK 17
+          uses: actions/setup-java@v2
+          with:
+            java-version: '17'
+            distribution: 'temurin'
 
-#         - name: Cache the Maven packages to speed up build
-#           uses: actions/cache@v2
-#           with:
-#             path: ~/.m2
-#             key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-#             restore-keys: ${{ runner.os }}-m2  
+        - name: Cache the Maven packages to speed up build
+          uses: actions/cache@v2
+          with:
+            path: ~/.m2
+            key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+            restore-keys: ${{ runner.os }}-m2  
 
-#         - name: Build with Maven
-#           run: mvn -B package --file microservices/invoice-service/pom.xml
+        - name: Build with Maven
+          run: mvn -B package --file microservices/traveldata-service/pom.xml
+          
+        - name: Build TravelData-Service Image
+          working-directory: ./microservices/traveldata-service
+          run: docker build -t ${{env.REGISTRY}}/roadpricing-s6-group3/traveldata-service:latest .
+          
+        - name: Push TravelData-Service Image
+          working-directory: ./microservices/traveldata-service
+          run: docker push ${{env.REGISTRY}}/roadpricing-s6-group3/traveldata-service:latest
 
-#     build-traveldata-service:
-#       name: Build traveldata service
-#       runs-on: self-hosted
-#       steps:
-#         - uses: actions/checkout@v2
-#         - name: Setup JDK 17
-#           uses: actions/setup-java@v2
-#           with:
-#             java-version: '17'
-#             distribution: 'temurin'
-
-#         - name: Cache the Maven packages to speed up build
-#           uses: actions/cache@v2
-#           with:
-#             path: ~/.m2
-#             key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-#             restore-keys: ${{ runner.os }}-m2  
-
-#         - name: Build with Maven
-#           run: mvn -B package --file microservices/traveldata-service/pom.xml
-
-#     build-and-push-images:
-#       needs: [ build-vehicle-service ]
-#       name: build-and-push-images
-#       runs-on: self-hosted
-#       permissions:
-#         contents: read
-#         packages: write
-      
-#       steps:
-#         - name: Checkout Repository
-#           uses: actions/checkout@v3
-
-#         - name: Login To Registry
-#           uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
-#           with:
-#             registry: ${{env.REGISTRY}}
-#             username: ${{github.actor}}
-#             password: ${{ secrets.GITHUB_TOKEN }}
-
-#         - name: Build & Push Vehicle-Service
-#           run: docker build -t ${{env.REGISTRY}}/roadpricing-s6-group3/vehicle-Service:latest
-#           uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
-#           with:
-#             context: .
-#             file: ./microservices/vehicle-service/Dockerfile
-#             push: true
-#             tags: ${{ env.REGISTRY }}/roadpricing-s6-group3/vehicle-service:latest
 
 
