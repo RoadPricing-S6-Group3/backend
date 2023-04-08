@@ -36,7 +36,7 @@
             password: ${{ secrets.GITHUB_TOKEN }}
 
         - name: Build & Push Vehicle-Service
-          run: docker build -t ${{env.REGISTRY}}/roadpricing-s6-group3/vehicle-service:latest ./microservices/vehicle-service/Dockerfile
+          run: docker build -t ${{env.REGISTRY}}/roadpricing-s6-group3/vehicle-service:latest . ./microservices/vehicle-service/Dockerfile
 
 #         - name: Cache Maven Package
 #           uses: actions/cache@v2
