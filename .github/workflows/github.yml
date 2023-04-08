@@ -122,8 +122,8 @@
         - name: Build & Push Vehicle-Service
           uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
           with:
-            file: . ./microservices/vehicle-service/Dockerfile
             context: .
+            file: ./microservices/vehicle-service/Dockerfile
             push: true
             tags: ${{ env.REGISTRY }}/roadpricing-s6-group3/vehicle-service:latest
 
