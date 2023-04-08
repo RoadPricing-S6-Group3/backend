@@ -35,10 +35,14 @@
             username: ${{github.actor}}
             password: ${{ secrets.GITHUB_TOKEN }}
 
-        - name: Build & Push Vehicle-Service
+        - name: Build Vehicle-Service Image
           working-directory: ./microservices/vehicle-service
           run: docker build -t ${{env.REGISTRY}}/roadpricing-s6-group3/vehicle-service:latest .
-
+          
+        - name: Push Vehicle-Service Image
+          working-directory: ./microservices/vehicle-service
+          run: docker push ${{env.REGISTRY}}/roadpricing-s6-group3/vehicle-service:latest
+          
 #         - name: Cache Maven Package
 #           uses: actions/cache@v2
 #           with:
