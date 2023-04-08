@@ -10,6 +10,9 @@
     build-vehicle-service:
       name: Build vehicle service
       runs-on: self-hosted
+      env:
+          workding-directory:
+            ./microservices/vehicle-service
       steps:
         - uses: actions/checkout@v2    
         - name: Setup JDK 17
@@ -36,7 +39,8 @@
             password: ${{ secrets.GITHUB_TOKEN }}
 
         - name: Build & Push Vehicle-Service
-          run: docker build -t ${{env.REGISTRY}}/roadpricing-s6-group3/vehicle-service:latest ./microservices/vehicle-service/Dockerfile
+          working-directory: ${{ env.working-directory }}
+          run: docker build -t ${{env.REGISTRY}}/roadpricing-s6-group3/vehicle-service:latest .
 
 #         - name: Cache Maven Package
 #           uses: actions/cache@v2
