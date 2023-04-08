@@ -64,6 +64,13 @@
         - name: Build with Maven
           run: mvn -B package --file microservices/user-service/pom.xml
           
+        - name: Login To Registry
+          uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+          with:
+            registry: ${{env.REGISTRY}}
+            username: ${{github.actor}}
+            password: ${{ secrets.GITHUB_TOKEN }}
+          
         - name: Build User-Service Image
           working-directory: ./microservices/user-service
           run: docker build -t ${{env.REGISTRY}}/roadpricing-s6-group3/user-service:latest .
@@ -93,6 +100,13 @@
         - name: Build with Maven
           run: mvn -B package --file microservices/invoice-service/pom.xml
           
+        - name: Login To Registry
+          uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+          with:
+            registry: ${{env.REGISTRY}}
+            username: ${{github.actor}}
+            password: ${{ secrets.GITHUB_TOKEN }}    
+            
         - name: Build Invoice-Service Image
           working-directory: ./microservices/invoice-service
           run: docker build -t ${{env.REGISTRY}}/roadpricing-s6-group3/invoice-service:latest .
@@ -121,7 +135,14 @@
 
         - name: Build with Maven
           run: mvn -B package --file microservices/traveldata-service/pom.xml
-          
+
+        - name: Login To Registry
+          uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+          with:
+            registry: ${{env.REGISTRY}}
+            username: ${{github.actor}}
+            password: ${{ secrets.GITHUB_TOKEN }}
+
         - name: Build TravelData-Service Image
           working-directory: ./microservices/traveldata-service
           run: docker build -t ${{env.REGISTRY}}/roadpricing-s6-group3/traveldata-service:latest .
