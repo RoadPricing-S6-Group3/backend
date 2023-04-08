@@ -9,7 +9,7 @@
   jobs:
     build-vehicle-service:
       name: Build vehicle service
-      runs-on: self-hosted
+      runs-on: ubuntu-latest
       steps:
         - uses: actions/checkout@v2    
         - name: Setup JDK 17
@@ -45,7 +45,7 @@
 
     build-user-service:
       name: Build user service
-      runs-on: self-hosted
+      runs-on: ubuntu-latest
       steps:
         - uses: actions/checkout@v2
         - name: Setup JDK 17
@@ -81,7 +81,7 @@
 
     build-invoice-service:
       name: Build invoice service
-      runs-on: self-hosted
+      runs-on: ubuntu-latest
       steps:
         - uses: actions/checkout@v2
         - name: Setup JDK 17
@@ -117,7 +117,7 @@
 
     build-traveldata-service:
       name: Build traveldata service
-      runs-on: self-hosted
+      runs-on: ubuntu-latest
       steps:
         - uses: actions/checkout@v2
         - name: Setup JDK 17
