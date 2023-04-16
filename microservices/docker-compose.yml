@@ -70,7 +70,6 @@ services:
       - userdata:/var/lib/mysql
       - userdata:/etc/mysql/conf.d
 
-
 networks:
   spring-net:
     name: spring-net
