@@ -22,9 +22,11 @@ services:
     networks:
       - spring-net
     restart: "no"
+    depends_on:
+      -  roadpricing-mysql
     image: user-service:latest
     ports:
-      - 8082:8082
+      - 8084:8084
 
   rabbit-MQ:
     container_name: rabbit-MQ
@@ -78,6 +80,8 @@ services:
     volumes:
       - vehicledata:/var/lib/mysql
       - vehicledata:/etc/mysql/conf.d
+      - userdata:/var/lib/mysql
+      - userdata:/etc/mysql/conf.d
 
 networks:
   spring-net:
@@ -86,3 +90,4 @@ networks:
 
 volumes:
   vehicledata:
+  userdata:
