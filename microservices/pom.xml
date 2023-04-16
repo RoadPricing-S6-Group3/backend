@@ -13,6 +13,7 @@
     <module>vehicle-service</module>
     <module>invoice-service</module>
     <module>user-service</module>
+    <module>traveldata-service</module>
   </modules>
 
   <name>microservices</name>

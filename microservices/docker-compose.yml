@@ -1,18 +1,18 @@
 version: '3.8'
 services:
-#  vehicle-service:
-#    container_name: vehicle-service
-#    build:
-#      context: vehicle-service/
-#      dockerfile: Dockerfile
-#    networks:
-#      - spring-net
-#    restart: "no"
-#    depends_on:
-#      - roadpricing-mysql
-#    image: vehicle-service:latest
-#    ports:
-#      - 8080:8080
+  vehicle-service:
+    container_name: vehicle-service
+    build:
+      context: vehicle-service/
+      dockerfile: Dockerfile
+    networks:
+      - spring-net
+    restart: "no"
+    depends_on:
+      - roadpricing-mysql
+    image: vehicle-service:latest
+    ports:
+      - 8080:8080
 
   user-service:
     container_name: user-service
@@ -28,38 +28,31 @@ services:
     ports:
       - 8084:8084
 
-#  user-service:
-#    container_name: user-service
-#    build:
-#      context: user-service/
-#      dockerfile: Dockerfile
-#    networks:
-#      - spring-net
-#      - local-dev
-#    environment:
-#      CONNECTION_STRING: ${CONNECTION_STRING}
-#      DB_NAME: ${USER_DBNAME}
-#    env_file:
-#      - .env
-#    image: user-service:latest
-#    ports:
-#      - "8082:8082"
-#    depends_on:
-#      - rabbitmq
-#      - placement
+  invoice-service:
+    container_name: invoice-service
+    build:
+      context: invoice-service/
+      dockerfile: Dockerfile
+    networks:
+      - spring-net
+    restart: "no"
+    image: invoice-service:latest
+    ports:
+      - 8083:8083
 
-
-#  invoice-service:
-#    container_name: invoice-service
-#    build:
-#      context: invoice-service/
-#      dockerfile: Dockerfile
-#    networks:
-#      - spring-net
-#    restart: "no"
-#    image: invoice-service:latest
-#    ports:
-#      - 8083:8083
+  traveldata-service:
+    container_name: traveldata-service
+    build:
+      context: traveldata-service/
+      dockerfile: Dockerfile
+    networks:
+      - spring-net
+    restart: "no"
+    depends_on:
+      - roadpricing-mysql
+    image: traveldata-service:latest
+    ports:
+      - 8085:8085
 
   roadpricing-mysql:
     container_name: roadpricing-DB
@@ -78,48 +71,10 @@ services:
       - userdata:/etc/mysql/conf.d
 
 
-#  userdatabase-mysql:
-#    container_name:  userdatabase-DB
-#    image: mysql:latest
-#    ports:
-#      - 3307:3307
-#    networks:
-#      - spring-net
-#    environment:
-#      - MYSQL_ROOT_PASSWORD=Teun
-#      - MYSQL_DATABASE=user
-#    volumes:
-#      -   userdata:/var/lib/mysql
-#      -   userdata:/etc/mysql/conf.d
-
-#  mongodb:
-#    image: mongo
-#    container_name: mongodb
-#    ports:
-#      - 27017:27017
-#    volumes:
-#      - userdata:/data
-#    environment:
-#      - MONGO_INITDB_ROOT_USERNAME=rootuser
-#      - MONGO_INITDB_ROOT_PASSWORD=rootpass
-#  mongo-express:
-#    image: mongo-express
-#    container_name: mongo-express
-#    restart: always
-#    ports:
-#      - 8089:8089
-#    environment:
-#      - ME_CONFIG_MONGODB_ADMINUSERNAME=rootuser
-#      - ME_CONFIG_MONGODB_ADMINPASSWORD=rootpass
-#      - ME_CONFIG_MONGODB_SERVER=mongodb
-
 networks:
   spring-net:
     name: spring-net
     driver: bridge
-
-
-
 
 volumes:
   vehicledata:
