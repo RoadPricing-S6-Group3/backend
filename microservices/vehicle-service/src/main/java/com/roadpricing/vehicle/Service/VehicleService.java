@@ -42,6 +42,7 @@ public class VehicleService {
     public void saveVehicle(Vehicle vehicle){
         repo.save(vehicle);
     }
+
     public void updateVehicle(Vehicle vehicle){
         if(repo.findById(vehicle.getId())!= null){
             repo.save(vehicle);

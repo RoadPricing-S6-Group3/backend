@@ -28,6 +28,19 @@ services:
     ports:
       - 8084:8084
 
+  rabbit-MQ:
+    container_name: rabbit-MQ
+    image: rabbitmq:3-management
+    ports:
+      - 15672:15672
+      - 5672:5672
+    networks:
+      - spring-net
+    restart: "no"
+    environment:
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=password
+
   invoice-service:
     container_name: invoice-service
     build:
@@ -69,7 +82,6 @@ services:
       - vehicledata:/etc/mysql/conf.d
       - userdata:/var/lib/mysql
       - userdata:/etc/mysql/conf.d
-
 
 networks:
   spring-net:
