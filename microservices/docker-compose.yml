@@ -7,9 +7,10 @@ services:
       dockerfile: Dockerfile
     networks:
       - spring-net
-    restart: "no"
+    restart: on-failure
     depends_on:
-      - roadpricing-mysql
+      vehicle-mysql:
+        condition: service_started
     image: vehicle-service:latest
     ports:
       - 8080:8080
@@ -21,12 +22,44 @@ services:
       dockerfile: Dockerfile
     networks:
       - spring-net
-    restart: "no"
+    restart: on-failure
     depends_on:
-      -  roadpricing-mysql
+      user-mysql:
+        condition: service_started
+
     image: user-service:latest
     ports:
       - 8084:8084
+
+  invoice-service:
+    container_name: invoice-service
+    build:
+      context: invoice-service/
+      dockerfile: Dockerfile
+    networks:
+      - spring-net
+    restart: on-failure
+    depends_on:
+      invoice-mysql:
+        condition: service_started
+    image: invoice-service:latest
+    ports:
+      - 8083:8083
+
+  traveldata-service:
+    container_name: traveldata-service
+    build:
+      context: traveldata-service/
+      dockerfile: Dockerfile
+    networks:
+      - spring-net
+    restart: on-failure
+    depends_on:
+      traveldata-mysql:
+        condition: service_started
+    image: traveldata-service:latest
+    ports:
+      - 8085:8085
 
   rabbit-MQ:
     container_name: rabbit-MQ
@@ -41,34 +74,8 @@ services:
       - RABBITMQ_DEFAULT_USER=user
       - RABBITMQ_DEFAULT_PASS=password
 
-  invoice-service:
-    container_name: invoice-service
-    build:
-      context: invoice-service/
-      dockerfile: Dockerfile
-    networks:
-      - spring-net
-    restart: "no"
-    image: invoice-service:latest
-    ports:
-      - 8083:8083
-
-  traveldata-service:
-    container_name: traveldata-service
-    build:
-      context: traveldata-service/
-      dockerfile: Dockerfile
-    networks:
-      - spring-net
-    restart: "no"
-    depends_on:
-      - roadpricing-mysql
-    image: traveldata-service:latest
-    ports:
-      - 8085:8085
-
-  roadpricing-mysql:
-    container_name: roadpricing-DB
+  vehicle-mysql:
+    container_name: vehicle-DB
     image: mysql:latest
     ports:
       - 3306:3306
@@ -80,8 +87,51 @@ services:
     volumes:
       - vehicledata:/var/lib/mysql
       - vehicledata:/etc/mysql/conf.d
+
+  user-mysql:
+    container_name: user-DB
+    image: mysql:latest
+    ports:
+      - 3307:3307
+    networks:
+      - spring-net
+    environment:
+      - MYSQL_ROOT_PASSWORD=Teun
+      - MYSQL_DATABASE=user
+      - MYSQL_TCP_PORT=3307
+    volumes:
       - userdata:/var/lib/mysql
       - userdata:/etc/mysql/conf.d
+
+  traveldata-mysql:
+    container_name: traveldata-DB
+    image: mysql:latest
+    ports:
+      - 3308:3308
+    networks:
+      - spring-net
+    environment:
+      - MYSQL_ROOT_PASSWORD=Teun
+      - MYSQL_DATABASE=traveldata
+      - MYSQL_TCP_PORT=3308
+    volumes:
+      - traveldatadata:/var/lib/mysql
+      - traveldatadata:/etc/mysql/conf.d
+
+  invoice-mysql:
+    container_name: invoice-DB
+    image: mysql:latest
+    ports:
+      - 3309:3309
+    networks:
+      - spring-net
+    environment:
+      - MYSQL_ROOT_PASSWORD=Teun
+      - MYSQL_DATABASE=invoice
+      - MYSQL_TCP_PORT=3309
+    volumes:
+      - invoicedata:/var/lib/mysql
+      - invoicedata:/etc/mysql/conf.d
 
 networks:
   spring-net:
@@ -91,3 +141,5 @@ networks:
 volumes:
   vehicledata:
   userdata:
+  invoicedata:
+  traveldatadata:
