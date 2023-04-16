@@ -39,7 +39,6 @@ services:
       - RABBITMQ_DEFAULT_USER=user
       - RABBITMQ_DEFAULT_PASS=password
 
-
   invoice-service:
     container_name: invoice-service
     build:
@@ -51,6 +50,20 @@ services:
     image: invoice-service:latest
     ports:
       - 8083:8083
+
+  traveldata-service:
+    container_name: traveldata-service
+    build:
+      context: traveldata-service/
+      dockerfile: Dockerfile
+    networks:
+      - spring-net
+    restart: "no"
+    depends_on:
+      - roadpricing-mysql
+    image: traveldata-service:latest
+    ports:
+      - 8085:8085
 
   roadpricing-mysql:
     container_name: roadpricing-DB
