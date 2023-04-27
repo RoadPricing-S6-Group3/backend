@@ -1,23 +1,33 @@
 steps:
-  # Step 1: Maven package
+  # Step 0: Clone your code repository. I'm specifying the branch here with -b cloud/deployment
+  - name: 'gcr.io/cloud-builders/git'
+    args: [ 'clone', '-b', 'cloud/deployment', 'https://github.com/RoadPricing-S6-Group3/backend.git' ]
+
+  # Step 1: Maven package - Specify the pom.xml file to use
   # This should cover all of the microservices using the Pom in the root folder
   - name: 'gcr.io/cloud-builders/mvn'
     args: ['clean', 'package', '-f', 'microservices/pom.xml']
 
-  # Step 2: Docker Build - Specify the tag (service name) and folder where to adress the build
+  # Step 2: Docker Build - Specify the tag (service name) and folder where to address the build
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/graphic-matrix-308512/vehicle-service:latest', 'microservices/vehicle-service']
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/$IMAGE_NAME:$IMAGE_TAG', 'microservices/$IMAGE_NAME']
 
-  # Step 3: Docker Push
+  # Step 3: Docker Push - Specify the tag (service name) and folder where to address the push
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/graphic-matrix-308512/vehicle-service:latest']
+    args: ['push', 'gcr.io/graphic-matrix-308512/$IMAGE_NAME:$IMAGE_TAG']
 
   # Step 4: Deploy the Docker image to Kubernetes
   - name: 'gcr.io/cloud-builders/kubectl'
-    args: ['apply', '-f', 'microservices/vehicle-service/kubernetes/deployment.yaml']
+    args: ['apply', '-f', 'microservices/$IMAGE_NAME/kubernetes/deployment.yaml']
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=europe-west1'
       - 'CLOUDSDK_CONTAINER_CLUSTER=autopilot-cluster-1'
-
+env:
+# The Google cloud project id
+  PROJECT_ID: graphic-matrix-308512
+# For convenience, I've named the image the same as the service name
+  IMAGE_NAME: vehicle-service
+# The tag for the image. I'm using latest for now
+  IMAGE_TAG: latest
 images: ['gcr.io/graphic-matrix-308512/vehicle-service:latest']
 timeout: '1800s'
