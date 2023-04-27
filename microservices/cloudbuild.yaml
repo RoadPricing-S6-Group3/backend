@@ -1,4 +1,15 @@
 steps:
+  # set env variables for its execution
+  - name: 'ubuntu'
+    args: [ 'bash', './myscript.sh' ]
+    env:
+      - 'PROJECT_ID=$PROJECT_ID'
+      - 'REV=$REVISION_ID'
+      # For convenience, I've named the image the same as the service name
+      - 'IMAGE_NAME=vehicle-service'
+      # The tag for the image. I'm using latest for now
+      - 'IMAGE_TAG=latest'
+
   # Step 0: Clone your code repository. I'm specifying the branch here with -b cloud/deployment
   - name: 'gcr.io/cloud-builders/git'
     args: [ 'clone', '-b', 'cloud/deployment', 'https://github.com/RoadPricing-S6-Group3/backend.git' ]
@@ -22,12 +33,5 @@ steps:
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=europe-west1'
       - 'CLOUDSDK_CONTAINER_CLUSTER=autopilot-cluster-1'
-env:
-# The Google cloud project id
-  PROJECT_ID: graphic-matrix-308512
-# For convenience, I've named the image the same as the service name
-  IMAGE_NAME: vehicle-service
-# The tag for the image. I'm using latest for now
-  IMAGE_TAG: latest
 images: ['gcr.io/graphic-matrix-308512/vehicle-service:latest']
 timeout: '1800s'
