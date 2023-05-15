@@ -77,6 +77,10 @@ steps:
 
 
 substitutions:
-  _IMAGE_TAG: latest # The tag for the image. I'm using latest for now
-  _PROJECT_ID: graphic-matrix-308512 # The Google cloud project id
+  _IMAGE_TAG: 'latest' # The tag for the image. I'm using latest for now
+  _PROJECT_ID: 'graphic-matrix-308512' # The Google cloud project id
+images: ['gcr.io/graphic-matrix-308512/vehicle-service:latest',
+         'gcr.io/graphic-matrix-308512/invoice-service:latest',
+         'gcr.io/graphic-matrix-308512/traveldata-service:latest',
+         'gcr.io/graphic-matrix-308512/user-service:latest']
 timeout: '1800s'

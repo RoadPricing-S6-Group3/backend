@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: autopilot-cluster-1
-          image: gcr.io/graphic-matrix-308512/invoice-service
+          image: gcr.io/graphic-matrix-308512/invoice-service:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8083
