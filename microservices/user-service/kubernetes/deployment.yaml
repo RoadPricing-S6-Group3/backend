@@ -1,29 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: vehicle-service-deployment
+  name: user-service-deployment
   labels:
-    app: vehicle-service-deployment
+    app: user-service-deployment
 spec:
   replicas: 0
   selector:
     matchLabels:
-      app: vehicle-service
+      app: user-service
   template:
     metadata:
       labels:
-        app: vehicle-service
+        app: user-service
     spec:
       containers:
         - name: autopilot-cluster-1
-          image: gcr.io/graphic-matrix-308512/vehicle-service:latest
+          image: gcr.io/graphic-matrix-308512/user-service:latest
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 8080
+            - containerPort: 8084
           livenessProbe:
             httpGet:
               path: /healthz
-              port: 8080
+              port: 8084
             initialDelaySeconds: 60
             periodSeconds: 10
             timeoutSeconds: 5
@@ -32,16 +32,16 @@ spec:
 apiVersion: "v1"
 kind: "Service"
 metadata:
-  name: vehicle-service-network
+  name: user-service-network
   namespace: "default"
 spec:
   selector:
-    app: vehicle-service
+    app: user-service
   ports:
     # The port that this service listens to for incoming traffic.
-    - port: 8080
+    - port: 8084
       # The port that this service sends requests to.
-      targetPort: 8080
+      targetPort: 8084
   #  LoadBalancer to expose the service externally,
   #  NodePort to expose the service on a port across each of your nodes,
   #  and ClusterIP to expose the service on a cluster-internal IP
