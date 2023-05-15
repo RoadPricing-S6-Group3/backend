@@ -5,7 +5,7 @@ metadata:
   labels:
     app: invoice-service-deployment
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: invoice-service
