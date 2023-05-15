@@ -5,12 +5,9 @@ steps:
     
   - name: 'gcr.io/cloud-builders/mvn'
     args: ['--version']
-
-  - name: 'gcr.io/cloud-builders/mvn'
-    args: ['--x']
     
   - name: 'gcr.io/cloud-builders/mvn'
-    args: ['clean', 'package', '-f', 'microservices/vehicle-service/pom.xml']
+    args: ['clean', 'package', '-f', 'microservices/vehicle-service/pom.xml', '-x']
   # Step 1: Maven package - Specify the pom.xml file to use
   # This should cover all of the microservices using the Pom in the root folder
   - name: 'gcr.io/cloud-builders/mvn'
