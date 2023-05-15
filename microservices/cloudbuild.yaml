@@ -2,7 +2,13 @@ steps:
   # Step 0: Clone your code repository. I'm specifying the branch here with -b cloud/deployment
   - name: 'gcr.io/cloud-builders/git'
     args: [ 'clone', '-b', 'cloud/deployment', 'https://github.com/RoadPricing-S6-Group3/backend.git' ]
+    
+  - name: 'gcr.io/cloud-builders/mvn'
+    args: ['--version']
 
+  - name: 'gcr.io/cloud-builders/mvn'
+    args: ['--x']
+    
   - name: 'gcr.io/cloud-builders/mvn'
     args: ['clean', 'package', '-f', 'microservices/vehicle-service/pom.xml']
   # Step 1: Maven package - Specify the pom.xml file to use
