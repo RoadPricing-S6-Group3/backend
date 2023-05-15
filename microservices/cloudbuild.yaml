@@ -2,6 +2,7 @@ steps:
   # Step 0: Clone your code repository. I'm specifying the branch here with -b cloud/deployment
   - name: 'gcr.io/cloud-builders/git'
     args: [ 'clone', '-b', 'cloud/deployment', 'https://github.com/RoadPricing-S6-Group3/backend.git' ]
+    id: 'Clone repository'
     
   - name: 'gcr.io/cloud-builders/mvn'
     args: ['--version']
@@ -9,36 +10,41 @@ steps:
   # This should cover all of the microservices using the Pom in the root folder
   - name: 'gcr.io/cloud-builders/mvn'
     args: ['clean', 'package', '-f', 'microservices/pom.xml']
+    id: 'Maven package all microservices'
 
   # Step 2: Docker Build - Specify the tag (service name) and folder where to address the build
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/$_PROJECT_ID/vehicle-service:$_IMAGE_TAG', 'microservices/vehicle-service']
-    id: 'build-service-1'
+    id: 'Build vehicle-service'
 
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/$_PROJECT_ID/invoice-service:$_IMAGE_TAG', 'microservices/invoice-service']
-    id: 'build-service-2'
+    id: 'Build invoice-service'
 
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/$_PROJECT_ID/traveldata-service:$_IMAGE_TAG', 'microservices/traveldata-service']
-    id: 'build-service-3'
+    id: 'Build traveldata-service'
 
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/$_PROJECT_ID/user-service:$_IMAGE_TAG', 'microservices/user-service']
-    id: 'build-service-4'
+    id: 'Build user-service'
 
   # Step 3: Docker Push - Specify the tag (service name) and folder where to address the push
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/$_PROJECT_ID/vehicle-service:$_IMAGE_TAG']
+    id: 'Push vehicle-service to GCR'
 
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/$_PROJECT_ID/invoice-service:$_IMAGE_TAG']
+    id: 'Push invoice-service to GCR'
 
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/$_PROJECT_ID/traveldata-service:$_IMAGE_TAG']
+    id: 'Push traveldata-service to GCR'
 
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/$_PROJECT_ID/user-service:$_IMAGE_TAG']
+    id: 'Push user-service to GCR'
 
   # Step 4: Deploy the Docker image to Kubernetes
   - name: 'gcr.io/cloud-builders/kubectl'
@@ -46,24 +52,28 @@ steps:
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=europe-west1'
       - 'CLOUDSDK_CONTAINER_CLUSTER=autopilot-cluster-1'
+    id: 'Deploy vehicle-service'
 
   - name: 'gcr.io/cloud-builders/kubectl'
     args: ['apply', '-f', 'microservices/invoice-service/kubernetes/deployment.yaml']
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=europe-west1'
       - 'CLOUDSDK_CONTAINER_CLUSTER=autopilot-cluster-1'
+    id: 'Deploy invoice-service'
 
   - name: 'gcr.io/cloud-builders/kubectl'
     args: ['apply', '-f', 'microservices/traveldata-service/kubernetes/deployment.yaml']
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=europe-west1'
       - 'CLOUDSDK_CONTAINER_CLUSTER=autopilot-cluster-1'
+    id: 'Deploy traveldata-service'
 
   - name: 'gcr.io/cloud-builders/kubectl'
     args: ['apply', '-f', 'microservices/user-service/kubernetes/deployment.yaml']
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=europe-west1'
       - 'CLOUDSDK_CONTAINER_CLUSTER=autopilot-cluster-1'
+    id: 'Deploy user-service'
 
 
 substitutions:
