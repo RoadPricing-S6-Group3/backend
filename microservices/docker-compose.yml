@@ -61,6 +61,21 @@ services:
     ports:
       - 8085:8085
 
+  pricing-service:
+    container_name: pricing-service
+    build:
+      context: pricing-service/
+      dockerfile: Dockerfile
+    networks:
+      - spring-net
+    restart: on-failure
+    depends_on:
+      pricing-mysql:
+        condition: service_started
+    image: pricing-service:latest
+    ports:
+      - 8086:8086
+
   rabbit-MQ:
     container_name: rabbit-MQ
     image: rabbitmq:3-management
@@ -133,6 +148,21 @@ services:
       - invoicedata:/var/lib/mysql
       - invoicedata:/etc/mysql/conf.d
 
+  pricing-mysql:
+    container_name: pricing-DB
+    image: mysql:latest
+    ports:
+      - 3310:3310
+    networks:
+      - spring-net
+    environment:
+      - MYSQL_ROOT_PASSWORD=Teun
+      - MYSQL_DATABASE=pricing
+      - MYSQL_TCP_PORT=3310
+    volumes:
+      - pricingdata:/var/lib/mysql
+      - pricingdata:/etc/mysql/conf.d
+
 networks:
   spring-net:
     name: spring-net
@@ -143,3 +173,4 @@ volumes:
   userdata:
   invoicedata:
   traveldatadata:
+  pricingdata:
