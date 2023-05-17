@@ -1,0 +1,199 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vehicle-mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vehicle-mysql
+  template:
+    metadata:
+      labels:
+        app: vehicle-mysql
+    spec:
+      containers:
+        - name: vehicle-DB
+          image: mysql:latest
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: Teun
+            - name: MYSQL_DATABASE
+              value: vehicle
+          volumeMounts:
+            - name: vehicledata
+              mountPath: /var/lib/mysql
+            - name: vehicledata
+              mountPath: /etc/mysql/conf.d
+      volumes:
+        - name: vehicledata
+          emptyDir: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: vehicle-mysql-service
+spec:
+  selector:
+    app: vehicle-mysql
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-mysql
+  template:
+    metadata:
+      labels:
+        app: user-mysql
+    spec:
+      containers:
+        - name: user-DB
+          image: mysql:latest
+          ports:
+            - containerPort: 3307
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: Teun
+            - name: MYSQL_DATABASE
+              value: user
+            - name: MYSQL_TCP_PORT
+              value: "3307"
+          volumeMounts:
+            - name: userdata
+              mountPath: /var/lib/mysql
+            - name: userdata
+              mountPath: /etc/mysql/conf.d
+      volumes:
+        - name: userdata
+          emptyDir: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-mysql-service
+spec:
+  selector:
+    app: user-mysql
+  ports:
+    - protocol: TCP
+      port: 3307
+      targetPort: 3307
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: traveldata-mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: traveldata-mysql
+  template:
+    metadata:
+      labels:
+        app: traveldata-mysql
+    spec:
+      containers:
+        - name: traveldata-DB
+          image: mysql:latest
+          ports:
+            - containerPort: 3308
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: Teun
+            - name: MYSQL_DATABASE
+              value: traveldata
+            - name: MYSQL_TCP_PORT
+              value: "3308"
+          volumeMounts:
+            - name: traveldatadata
+              mountPath: /var/lib/mysql
+            - name: traveldatadata
+              mountPath: /etc/mysql/conf.d
+      volumes:
+        - name: traveldatadata
+          emptyDir: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: traveldata-mysql-service
+spec:
+  selector:
+    app: traveldata-mysql
+  ports:
+    - protocol: TCP
+      port: 3308
+      targetPort: 3308
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: invoice-mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: invoice-mysql
+  template:
+    metadata:
+      labels:
+        app: invoice-mysql
+    spec:
+      containers:
+        - name: invoice-DB
+          image: mysql:latest
+          ports:
+            - containerPort: 3309
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: Teun
+            - name: MYSQL_DATABASE
+              value: invoice
+            - name: MYSQL_TCP_PORT
+              value: "3309"
+          volumeMounts:
+            - name: invoicedata
+              mountPath: /var/lib/mysql
+            - name: invoicedata
+              mountPath: /etc/mysql/conf.d
+      volumes:
+        - name: invoicedata
+          emptyDir: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: invoice-mysql-service
+spec:
+  selector:
+    app: invoice-mysql
+  ports:
+    - protocol: TCP
+      port: 3309
+      targetPort: 3309
