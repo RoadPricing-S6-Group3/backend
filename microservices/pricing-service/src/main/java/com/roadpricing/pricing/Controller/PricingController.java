@@ -15,7 +15,7 @@ public class PricingController {
     @Autowired
     PricingService service;
 
-    @GetMapping("/{vehicleType}")
+    @GetMapping("/vehicleType/{vehicleType}")
     public ResponseEntity<Float> get(@PathVariable(value = "vehicleType")String vehicleType){
         try{
             float vehiclePrice = service.getVehiclePrice(vehicleType);

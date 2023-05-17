@@ -1,0 +1,5 @@
+com\roadpricing\pricing\Controller\PricingController.class
+com\roadpricing\pricing\Service\PricingService$VehicleTypes.class
+com\roadpricing\pricing\PricingApplication.class
+com\roadpricing\pricing\Service\PricingService.class
+com\roadpricing\pricing\Service\PricingService$1.class
