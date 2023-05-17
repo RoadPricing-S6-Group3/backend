@@ -13,7 +13,7 @@ spec:
         app: vehicle-mysql
     spec:
       containers:
-        - name: vehicle-DB
+        - name: vehicle-db
           image: mysql:latest
           ports:
             - containerPort: 3306
@@ -62,7 +62,7 @@ spec:
         app: user-mysql
     spec:
       containers:
-        - name: user-DB
+        - name: user-db
           image: mysql:latest
           ports:
             - containerPort: 3307
@@ -81,9 +81,7 @@ spec:
       volumes:
         - name: userdata
           emptyDir: {}
-
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -113,7 +111,7 @@ spec:
         app: traveldata-mysql
     spec:
       containers:
-        - name: traveldata-DB
+        - name: traveldata-db
           image: mysql:latest
           ports:
             - containerPort: 3308
@@ -164,7 +162,7 @@ spec:
         app: invoice-mysql
     spec:
       containers:
-        - name: invoice-DB
+        - name: invoice-db
           image: mysql:latest
           ports:
             - containerPort: 3309
