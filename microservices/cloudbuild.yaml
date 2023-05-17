@@ -18,7 +18,7 @@ steps:
     env:
       - 'CLOUDSDK_COMPUTE_ZONE=europe-west1'
       - 'CLOUDSDK_CONTAINER_CLUSTER=autopilot-cluster-1'
-    id: 'Deploy user-service'
+    id: 'Deploy msql-service'
 
   # Step 2: Docker Build - Specify the tag (service name) and folder where to address the build
   - name: 'gcr.io/cloud-builders/docker'
