@@ -2,6 +2,7 @@ package com.roadpricing.tracking.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.roadpricing.tracking.model.RouteModel;
 import com.roadpricing.tracking.service.RouteService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +22,14 @@ public class Controller {
     @Autowired
     ObjectMapper obejectmapper;
     @GetMapping("/coord/{coordinates}")
-    public ResponseEntity createRoute(@PathVariable(value= "coordinates")String coordinates){
+    public ResponseEntity<RouteModel> createRoute(@PathVariable(value= "coordinates")String coordinates){
         String cords = "5.480312336981955,51.44370749735556;5.453453331511914,51.45154959663053";
-        String result;
-        JSONObject json;
-        result = routeService.createRoute(cords);
-        return ResponseEntity.ok().build();
+        RouteModel routeModel = new RouteModel();
+        try {
+            routeModel = routeService.createRoute(cords);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return ResponseEntity.ok().body(routeModel);
     }
 }
