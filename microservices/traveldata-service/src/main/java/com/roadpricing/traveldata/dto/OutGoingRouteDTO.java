@@ -3,12 +3,12 @@ package com.roadpricing.traveldata.dto;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Map;
 
 @NoArgsConstructor
 @AllArgsConstructor
-public class OutGoingRouteDTO {
+public class OutGoingRouteDTO implements Serializable {
 
     private String routeId;
     private Boolean inProgress;

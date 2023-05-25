@@ -4,10 +4,12 @@ import com.roadpricing.traveldata.dto.IncomingRouteDTO;
 import com.roadpricing.traveldata.dto.OutGoingRouteDTO;
 import com.roadpricing.traveldata.dto.PointDTO;
 import com.roadpricing.traveldata.dto.VehicleDTO;
+import com.roadpricing.traveldata.rabbitmq.Publisher;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -21,7 +23,8 @@ import java.util.Map;
 
 @Service
 public class RouteInfoService {
-
+    @Autowired
+    Publisher publisher;
     Logger logger = LoggerFactory.getLogger(RouteInfoService.class);
     public List<OutGoingRouteDTO> sendProcessRoute(IncomingRouteDTO incomingRouteDTO){
         //Sorts the list by data
@@ -90,6 +93,7 @@ public class RouteInfoService {
                     out.setInProgress(false);
                 }
                 outGoingRouteDTOS.add(out);
+                publisher.publishOutGoingRouteDTO(out);
             }
             catch (Exception e){
                 logger.error("Error: " + e);
