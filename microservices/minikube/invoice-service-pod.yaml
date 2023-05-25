@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kompose.cmd: C:\ProgramData\chocolatey\lib\kubernetes-kompose\tools\kompose.exe convert -f docker-compose.yml
+    kompose.version: 1.28.0 (c4137012e)
+  creationTimestamp: null
+  labels:
+    io.kompose.network/spring-net: "true"
+    io.kompose.service: invoice-service
+  name: invoice-service
+spec:
+  containers:
+    - image: invoice-service:latest
+      name: invoice-service
+      ports:
+        - containerPort: 8083
+      resources: {}
+  restartPolicy: OnFailure
+status: {}
