@@ -16,7 +16,7 @@ public class RouteService {
     public RouteModel createRoute(String coordinates) throws Exception {
         RestTemplate restTemplate = new RestTemplate();
         String body = null;
-        String url = "http://router.project-osrm.org/route/v1/car/" + coordinates + "?geometries=geojson&overview=full";
+        String url = "http://router.project-osrm.org/route/v1/car/" + coordinates + "?geometries=geojson&overview=full&steps=true";
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
         if (response.getStatusCode().is2xxSuccessful()) {
             body = response.getBody();
@@ -31,14 +31,13 @@ public class RouteService {
     //Private methods
     private RouteModel createModelFromResponse(String response){
         JSONObject jsonObject = new JSONObject(response);
-        JSONArray test = (JSONArray) jsonObject.get("routes");
-        Object obj = test.get(0);
+        JSONArray routes = (JSONArray) jsonObject.get("routes");
+        Object obj = routes.get(0);
 
         Map<String, Object> infoMap = createInfoMap(obj);
-        JSONObject jsonObject1 = (JSONObject) infoMap.get("geometry");
-        JSONArray array = jsonObject1.getJSONArray("coordinates");
-
-        Map<Integer, String> coords = getCoordinates(array);
+        JSONObject geometry = (JSONObject) infoMap.get("geometry");
+        JSONArray coordinates = geometry.getJSONArray("coordinates");
+        Map<Integer, String> coords = getCoordinates(coordinates);
         RouteModel routeModel = createRoute(infoMap, coords);
         return routeModel;
     }
