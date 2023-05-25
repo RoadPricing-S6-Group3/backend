@@ -60,7 +60,7 @@ services:
     image: traveldata-service:latest
     ports:
       - 8085:8085
-      -
+
   tracking-service:
     container_name: tracking-service
     build:
