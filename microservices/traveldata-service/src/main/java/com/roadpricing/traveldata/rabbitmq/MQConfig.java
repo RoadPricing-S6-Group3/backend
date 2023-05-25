@@ -13,9 +13,9 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class MQConfig {
-    static final String QUEUENAME = "userpokemon_queue";
-    static final String EXCHANGENAME = "userpokemon_exchange";
-    static final String ROUTINGKEY = "userpokemon_routingkey";
+    static final String QUEUENAME = "traveldata_queue";
+    static final String EXCHANGENAME = "traveldata_exchange";
+    static final String ROUTINGKEY = "traveldata_routingkey";
 
     @Bean
     Queue userPokemonQueue(){
