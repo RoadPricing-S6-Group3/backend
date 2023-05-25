@@ -60,6 +60,18 @@ services:
     image: traveldata-service:latest
     ports:
       - 8085:8085
+      -
+  tracking-service:
+    container_name: tracking-service
+    build:
+      context: tracking-service/
+      dockerfile: Dockerfile
+    networks:
+      - spring-net
+    restart: on-failure
+    image: tracker-service:latest
+    ports:
+      - "8088:8088"
 
   rabbit-MQ:
     container_name: rabbit-MQ
