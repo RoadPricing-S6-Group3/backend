@@ -2,6 +2,8 @@
 /microservices/invoice-service/target/
 /microservices/user-service/target/
 /microservices/traveldata-service/target/
+/microservices/tracking-service/target/
+/microservices/pricing-service/target/
 microservices/.idea/runConfigurations.xml
 microservices/.idea/misc.xml
 microservices/.idea/misc.xml
