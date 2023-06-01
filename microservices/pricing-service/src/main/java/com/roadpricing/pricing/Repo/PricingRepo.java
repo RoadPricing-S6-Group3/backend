@@ -14,5 +14,5 @@ import java.util.List;
 //
 @Repository
 public interface PricingRepo extends MongoRepository<Pricing, String> {
-    List<Pricing> findAllByRouteId(int id);
+    List<Pricing> findAllByRouteId(String id);
 }

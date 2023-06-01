@@ -55,14 +55,14 @@ public class PricingTest {
         // Arrange
         List<Pricing> travelData = new ArrayList<>();
         Pricing record1 = new Pricing();
-        record1.setRouteId(1);
+        record1.setRouteId("Test");
         record1.setVehicleType("M");
         record1.setFuelType("Biofuel");
         record1.setRoadType("A");
         record1.setDistance(BigDecimal.valueOf(3000.00d));
         travelData.add(record1);
         Pricing record2 = new Pricing();
-        record2.setRouteId(1);
+        record2.setRouteId("Test");
         record2.setVehicleType("M");
         record2.setFuelType("Biofuel");
         record2.setRoadType("N");

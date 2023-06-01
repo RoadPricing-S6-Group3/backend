@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 @Document(collection="pricing")
 public class Pricing implements Serializable {
-    private int routeId;
+    private String routeId;
     private boolean inProgress;
     private String vehicleType;
     private String fuelType;
@@ -15,11 +15,11 @@ public class Pricing implements Serializable {
     private String roadName;
     private BigDecimal distance;
 
-    public int getRouteId(){
+    public String getRouteId(){
         return routeId;
     }
 
-    public void setRouteId(int routeId){
+    public void setRouteId(String routeId){
         this.routeId = routeId;
     }
 
