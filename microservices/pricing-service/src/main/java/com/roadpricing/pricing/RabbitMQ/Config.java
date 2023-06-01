@@ -12,38 +12,38 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class Config {
-//    public static final String topicExchangeName = "traveldata-exchange";
-//
-//    static final String queueName = "traveldata-queue";
-//
-//    @Bean
-//    Queue queue() {
-//        return new Queue(queueName, false);
-//    }
-//
-//    @Bean
-//    TopicExchange exchange() {
-//        return new TopicExchange(topicExchangeName);
-//    }
-//
-//    @Bean
-//    Binding binding(Queue queue, TopicExchange exchange) {
-//        return BindingBuilder.bind(queue).to(exchange).with("foo.bar.#");
-//    }
-//
-//    @Bean
-//    SimpleMessageListenerContainer container(ConnectionFactory connectionFactory,
-//                                             MessageListenerAdapter listenerAdapter) {
-//        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-//        container.setConnectionFactory(connectionFactory);
-//        container.setQueueNames(queueName);
-//        container.setMessageListener(listenerAdapter);
-//        return container;
-//    }
-//
-//    @Bean
-//    MessageListenerAdapter listenerAdapter(Receiver receiver) {
-//        return new MessageListenerAdapter(receiver, "receiveTraveldata");
-//    }
+    static final String queueName = "traveldata_queue";
+    static final String exchangeName = "traveldata_exchange";
+    static final String routingKey = "traveldata_routingkey";
+
+    @Bean
+    Queue queue() {
+        return new Queue(queueName, true);
+    }
+
+    @Bean
+    TopicExchange exchange() {
+        return new TopicExchange(exchangeName);
+    }
+
+    @Bean
+    Binding binding(Queue queue, TopicExchange exchange) {
+        return BindingBuilder.bind(queue).to(exchange).with(routingKey);
+    }
+
+    @Bean
+    SimpleMessageListenerContainer container(ConnectionFactory connectionFactory,
+                                             MessageListenerAdapter listenerAdapter) {
+        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+        container.setConnectionFactory(connectionFactory);
+        container.setQueueNames(queueName);
+        container.setMessageListener(listenerAdapter);
+        return container;
+    }
+
+    @Bean
+    MessageListenerAdapter listenerAdapter(Receiver receiver) {
+        return new MessageListenerAdapter(receiver, "receiveTraveldata");
+    }
 
 }

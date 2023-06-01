@@ -76,7 +76,7 @@ public class PricingService {
             case Gas:
                 return 1.4f;
             case Oil:
-                return 1.f;
+                return 1.5f;
         }
         return 0f;
     }

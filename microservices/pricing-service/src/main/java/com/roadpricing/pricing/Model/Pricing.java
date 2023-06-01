@@ -1,9 +1,14 @@
 package com.roadpricing.pricing.Model;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class Pricing {
+@Document(collection="pricing")
+public class Pricing implements Serializable {
     private int routeId;
+    private boolean inProgress;
     private String vehicleType;
     private String fuelType;
     private String roadType;
@@ -17,6 +22,10 @@ public class Pricing {
     public void setRouteId(int routeId){
         this.routeId = routeId;
     }
+
+    public boolean getInProgress() { return inProgress; }
+
+    public void setInProgress(boolean inProgress) { this.inProgress = inProgress; }
 
     public String getVehicleType(){
         return vehicleType;
