@@ -1,15 +1,19 @@
 package com.roadpricing.pricing.Service;
 
 import com.roadpricing.pricing.Model.Pricing;
+import com.roadpricing.pricing.RabbitMQ.Publisher;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PricingService {
+
+    @Autowired
+    private Publisher publisher;
 
     private static final DecimalFormat df = new DecimalFormat("#,##");
 
@@ -18,15 +22,21 @@ public class PricingService {
     }
 
     enum FuelTypes{
-        Alternative, Biofuel, Diesel, Ethanol, Gas, Oil
+        Alternative, Biofuel, Diesel, Ethanol, Gas, Oil, Petrol
     }
 
     enum RoadTypes{
         A, N
     }
 
+    public String getFirstCharacter(String data){
+        String firstCharacter = data.substring(0, 1);
+        return firstCharacter;
+    }
+
     public float getVehiclePrice(String type){
-        VehicleTypes vehicleType = VehicleTypes.valueOf(type);
+        String firstCharacter = getFirstCharacter(type);
+        VehicleTypes vehicleType = VehicleTypes.valueOf(firstCharacter);
         switch(vehicleType){
             case L:
             case L1:
@@ -77,12 +87,15 @@ public class PricingService {
                 return 1.4f;
             case Oil:
                 return 1.5f;
+            case Petrol:
+                return 1.6f;
         }
         return 0f;
     }
 
     public float getRoadPrice(String type){
-        RoadTypes roadType = RoadTypes.valueOf(type);
+        String firstCharacter = getFirstCharacter(type);
+        RoadTypes roadType = RoadTypes.valueOf(firstCharacter);
         switch(roadType){
             case A:
                 return 1.2f;
@@ -101,6 +114,11 @@ public class PricingService {
         BigDecimal bigDecimal = new BigDecimal(total);
         BigDecimal roundedValue = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP);
         return roundedValue;
+    }
+
+    public void postTotalPrice(BigDecimal price){
+        String priceToSend = price.toString();
+        publisher.sendData(priceToSend);
     }
 
     public List<Pricing> getAllById(int id){

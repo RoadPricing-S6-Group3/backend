@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.roadpricing.pricing.Model.Pricing;
 import com.roadpricing.pricing.Repo.PricingRepo;
 import com.roadpricing.pricing.Service.PricingService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,9 +21,9 @@ public class Receiver {
     ObjectMapper objectMapper;
     private CountDownLatch latch = new CountDownLatch(1);
 
+    private final Logger logger = LoggerFactory.getLogger(Receiver.class);
     @Autowired
     private PricingRepo repo;
-    private Publisher publisher;
     @Autowired
     private PricingService service;
 
@@ -29,14 +31,15 @@ public class Receiver {
         Pricing pricing = null;
         try {
             pricing = objectMapper.readValue(message, Pricing.class);
+            logger.info("Received Pricing: " + message);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            logger.error("ERROR: " + e);
         }
         repo.save(pricing);
         if(!pricing.getInProgress()) {
             List<Pricing> pricingData = repo.findAllByRouteId(pricing.getRouteId());
             BigDecimal price = service.getTotalPrice(pricingData);
-            publisher.sendData(price.toString());
+            service.postTotalPrice(price);
         }
 
         latch.countDown();

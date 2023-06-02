@@ -17,7 +17,7 @@ public class Publisher {
 
     public void sendData(String data) {
         System.out.println("Sending message...");
-        rabbitTemplate.convertAndSend(Config.exchangeName, Config.routingKey, data);
+        rabbitTemplate.convertAndSend(Config.exchangeName2, Config.routingKey2, data);
         try{
             receiver.getLatch().await(10000, TimeUnit.MILLISECONDS);
         }catch(Exception e){
