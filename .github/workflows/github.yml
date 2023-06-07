@@ -151,5 +151,75 @@
           working-directory: ./microservices/traveldata-service
           run: docker push ${{env.REGISTRY}}/roadpricing-s6-group3/traveldata-service:latest
 
+    build-pricing-service:
+      name: Build pricing service
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v2
+        - name: Setup JDK 17
+          uses: actions/setup-java@v2
+          with:
+            java-version: '17'
+            distribution: 'temurin'
 
+        - name: Cache the Maven packages to speed up build
+          uses: actions/cache@v2
+          with:
+            path: ~/.m2
+            key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+            restore-keys: ${{ runner.os }}-m2  
+
+        - name: Build with Maven
+          run: mvn -B package --file microservices/pricing-service/pom.xml
+
+        - name: Login To Registry
+          uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+          with:
+            registry: ${{env.REGISTRY}}
+            username: ${{github.actor}}
+            password: ${{ secrets.GITHUB_TOKEN }}
+
+        - name: Build Pricing-Service Image
+          working-directory: ./microservices/pricing-service
+          run: docker build -t ${{env.REGISTRY}}/roadpricing-s6-group3/pricing-service:latest .
+          
+        - name: Push Pricing-Service Image
+          working-directory: ./microservices/pricing-service
+          run: docker push ${{env.REGISTRY}}/roadpricing-s6-group3/pricing-service:latest
+
+    build-Tracking-service:
+      name: Build tracking service
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v2
+        - name: Setup JDK 17
+          uses: actions/setup-java@v2
+          with:
+            java-version: '17'
+            distribution: 'temurin'
+
+        - name: Cache the Maven packages to speed up build
+          uses: actions/cache@v2
+          with:
+            path: ~/.m2
+            key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+            restore-keys: ${{ runner.os }}-m2  
+
+        - name: Build with Maven
+          run: mvn -B package --file microservices/tracking-service/pom.xml
+
+        - name: Login To Registry
+          uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+          with:
+            registry: ${{env.REGISTRY}}
+            username: ${{github.actor}}
+            password: ${{ secrets.GITHUB_TOKEN }}
+
+        - name: Build Tracking-Service Image
+          working-directory: ./microservices/tracking-service
+          run: docker build -t ${{env.REGISTRY}}/roadpricing-s6-group3/tracking-service:latest .
+          
+        - name: Push Tracking-Service Image
+          working-directory: ./microservices/tracking-service
+          run: docker push ${{env.REGISTRY}}/roadpricing-s6-group3/tracking-service:latest
 
