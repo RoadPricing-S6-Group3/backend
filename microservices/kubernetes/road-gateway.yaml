@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: roadpricing
+  labels:
+    name: roadpricing
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: roadpricing-gateway
+  namespace: roadpricing
+  labels:
+    app: roadpricing-gateway
+    tier: backend
+spec:
+  ports:
+    - name: "80"
+      port: 80
+      targetPort: 8089
+  selector:
+    app: roadpricing-gateway
+    tier: backend
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: roadpricing-gateway
+  namespace: roadpricing
+spec:
+  selector:
+    matchLabels:
+      app: roadpricing-gateway
+      tier: backend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: roadpricing-gateway
+        tier: backend
+    spec:
+      containers:
+        - name: roadpricing-gateway
+          image: ghcr.io/roadpricing-s6-group3/roadpricing-gateway:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8089

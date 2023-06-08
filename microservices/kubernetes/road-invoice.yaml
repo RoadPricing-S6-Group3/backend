@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: roadpricing
+  labels:
+    name: roadpricing
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: invoice-service
+  namespace: roadpricing
+  labels:
+    app: invoice-service
+    tier: backend
+spec:
+  ports:
+    - port: 8083
+      targetPort: 8083
+  selector:
+    app: invoice-service
+    tier: backend
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: invoice-service
+  namespace: roadpricing
+spec:
+  selector:
+    matchLabels:
+      app: invoice-service
+      tier: backend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: invoice-service
+        tier: backend
+    spec:
+      containers:
+        - name: invoice-service
+          image: ghcr.io/roadpricing-s6-group3/invoice-service:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8083
