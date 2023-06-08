@@ -74,7 +74,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: user-mysql
+  name: user-db
   namespace: roadpricing
 spec:
   selector:
@@ -194,3 +194,51 @@ spec:
               value: root
             - name: MONGO_INITDB_ROOT_PASSWORD
               value: Root
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: invoice-db
+  namespace: roadpricing
+  labels:
+    app: invoice-db
+    tier: backend
+spec:
+  selector:
+    app: invoice-db
+  ports:
+    - protocol: TCP
+      name: "3309"
+      port: 3309
+      targetPort: 3309
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: invoice-db
+  namespace: roadpricing
+spec:
+  selector:
+    matchLabels:
+      app: invoice-db
+      tier: backend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: invoice-db
+        tier: backend
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:latest
+          ports:
+            - containerPort: 3309
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: Teun
+            - name: MYSQL_TCP_PORT
+              value: "3309"
+            - name: MYSQL_DATABASE
+              value: invoice

@@ -8,7 +8,7 @@ metadata:
 apiVersion: v1
 kind: Service
 metadata:
-  name: vehicle-service
+  name: traveldata-service
   namespace: roadpricing
   labels:
     app: traveldata-service

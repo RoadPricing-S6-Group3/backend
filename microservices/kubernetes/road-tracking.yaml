@@ -44,4 +44,4 @@ spec:
           image: ghcr.io/roadpricing-s6-group3/tracking-service:latest
           imagePullPolicy: Always
           ports:
-            - containerPort: 80880
+            - containerPort: 8088
