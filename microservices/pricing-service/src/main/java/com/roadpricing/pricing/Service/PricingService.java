@@ -117,7 +117,9 @@ public class PricingService {
     }
 
     public void postTotalPrice(BigDecimal price){
+        System.out.println(price);
         String priceToSend = price.toString();
+        System.out.println(priceToSend);
         publisher.sendData(priceToSend);
     }
 
