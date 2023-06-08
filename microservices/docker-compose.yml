@@ -89,7 +89,7 @@ services:
       - 8086:8086
 
   rabbit-MQ:
-    container_name: rabbit-MQ
+    container_name: rabbit-mq
     image: rabbitmq:3-management
     ports:
       - 15672:15672
@@ -102,7 +102,7 @@ services:
       - RABBITMQ_DEFAULT_PASS=password
 
   vehicle-mysql:
-    container_name: vehicle-DB
+    container_name: vehicle-db
     image: mysql:latest
     ports:
       - 3306:3306
@@ -116,7 +116,7 @@ services:
       - vehicledata:/etc/mysql/conf.d
 
   user-mysql:
-    container_name: user-DB
+    container_name: user-db
     image: mysql:latest
     ports:
       - 3307:3307
@@ -131,7 +131,7 @@ services:
       - userdata:/etc/mysql/conf.d
 
   traveldata-mysql:
-    container_name: traveldata-DB
+    container_name: traveldata-db
     image: mysql:latest
     ports:
       - 3308:3308
@@ -146,7 +146,7 @@ services:
       - traveldatadata:/etc/mysql/conf.d
 
   invoice-mysql:
-    container_name: invoice-DB
+    container_name: invoice-db
     image: mysql:latest
     ports:
       - 3309:3309
