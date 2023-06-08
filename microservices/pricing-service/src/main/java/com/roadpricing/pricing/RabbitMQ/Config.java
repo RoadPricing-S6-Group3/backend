@@ -13,8 +13,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class Config {
     static final String queueName = "traveldata_queue";
+    static final String queueName2 = "invoice_queue";
     static final String exchangeName = "traveldata_exchange";
+    static final String exchangeName2 = "invoice_exchange";
     static final String routingKey = "traveldata_routingkey";
+    static final String routingKey2 = "invoice_routingkey";
 
     @Bean
     Queue queue() {
@@ -22,13 +25,26 @@ public class Config {
     }
 
     @Bean
+    Queue invoiceQueue() { return new Queue(queueName2, true); }
+
+    @Bean
     TopicExchange exchange() {
         return new TopicExchange(exchangeName);
     }
 
     @Bean
+    TopicExchange invoiceExchange() {
+        return new TopicExchange(exchangeName2);
+    }
+
+    @Bean
     Binding binding(Queue queue, TopicExchange exchange) {
         return BindingBuilder.bind(queue).to(exchange).with(routingKey);
+    }
+
+    @Bean
+    Binding invoiceBinding(Queue queue, TopicExchange exchange) {
+        return BindingBuilder.bind(queue).to(exchange).with(routingKey2);
     }
 
     @Bean

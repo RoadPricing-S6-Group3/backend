@@ -1,5 +1,12 @@
-com\roadpricing\pricing\Controller\PricingController.class
-com\roadpricing\pricing\Service\PricingService$VehicleTypes.class
+com\roadpricing\pricing\RabbitMQ\Config.class
 com\roadpricing\pricing\PricingApplication.class
 com\roadpricing\pricing\Service\PricingService.class
+com\roadpricing\pricing\RabbitMQ\Publisher.class
+com\roadpricing\pricing\Service\PricingService$FuelTypes.class
+com\roadpricing\pricing\Service\PricingService$RoadTypes.class
+com\roadpricing\pricing\RabbitMQ\Receiver.class
+com\roadpricing\pricing\Controller\PricingController.class
+com\roadpricing\pricing\Model\Pricing.class
+com\roadpricing\pricing\Service\PricingService$VehicleTypes.class
+com\roadpricing\pricing\Repo\PricingRepo.class
 com\roadpricing\pricing\Service\PricingService$1.class

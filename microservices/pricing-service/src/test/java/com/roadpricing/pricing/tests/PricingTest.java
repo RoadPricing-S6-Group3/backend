@@ -15,9 +15,24 @@ public class PricingTest {
     private PricingService service = new PricingService();
 
     @Test
+    void getFirstCharacter(){
+        // Arrange
+        String vehicleType = "M246";
+        String roadType = "A28";
+
+        // Act
+        String firstCharacter1 = service.getFirstCharacter(vehicleType);
+        String firstCharacter2 = service.getFirstCharacter(roadType);
+
+        // Assert
+        Assertions.assertEquals("M", firstCharacter1);
+        Assertions.assertEquals("A", firstCharacter2);
+    }
+
+    @Test
     void getVehiclePrice(){
         // Arrange
-        String vehicleType = "M2";
+        String vehicleType = "M246";
 
         // Act
         float price = service.getVehiclePrice(vehicleType);
@@ -41,7 +56,7 @@ public class PricingTest {
     @Test
     void getRoadPrice(){
         // Arrange
-        String roadType = "A";
+        String roadType = "A28";
 
         // Act
         float price = service.getRoadPrice(roadType);
@@ -55,14 +70,14 @@ public class PricingTest {
         // Arrange
         List<Pricing> travelData = new ArrayList<>();
         Pricing record1 = new Pricing();
-        record1.setRouteId(1);
+        record1.setRouteId("Test");
         record1.setVehicleType("M");
         record1.setFuelType("Biofuel");
         record1.setRoadType("A");
         record1.setDistance(BigDecimal.valueOf(3000.00d));
         travelData.add(record1);
         Pricing record2 = new Pricing();
-        record2.setRouteId(1);
+        record2.setRouteId("Test");
         record2.setVehicleType("M");
         record2.setFuelType("Biofuel");
         record2.setRoadType("N");
