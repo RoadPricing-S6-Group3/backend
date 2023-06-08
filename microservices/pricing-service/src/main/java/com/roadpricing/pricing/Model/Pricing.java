@@ -17,6 +17,8 @@ public class Pricing implements Serializable {
     private String roadName;
     private BigDecimal distance;
 
+    private String countryCode;
+
     public String getRouteId(){
         return routeId;
     }
@@ -67,5 +69,17 @@ public class Pricing implements Serializable {
 
     public void setDistance(BigDecimal distance){
         this.distance = distance;
+    }
+
+    public boolean isInProgress() {
+        return inProgress;
+    }
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 }
