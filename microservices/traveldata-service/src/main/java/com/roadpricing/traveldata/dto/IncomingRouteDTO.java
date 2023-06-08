@@ -14,7 +14,6 @@ public class IncomingRouteDTO implements Serializable {
 
     private List<PointDTO> points;
 
-
     //Getters & Setters
     public VehicleDTO getVehicle() {
         return vehicle;
@@ -31,5 +30,5 @@ public class IncomingRouteDTO implements Serializable {
     public void setPoints(List<PointDTO> points) {
         this.points = points;
     }
-    
+
 }

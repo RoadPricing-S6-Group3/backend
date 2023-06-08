@@ -16,6 +16,8 @@ public class OutGoingRouteDTO implements Serializable {
     private String fuelType;
     private String roadType;
 
+    private String countryCode;
+
     private String roadName;
     private BigDecimal distance;
 
@@ -74,5 +76,13 @@ public class OutGoingRouteDTO implements Serializable {
 
     public void setRoadName(String roadName) {
         this.roadName = roadName;
+    }
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
     }
 }

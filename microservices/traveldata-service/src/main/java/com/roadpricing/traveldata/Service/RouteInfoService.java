@@ -26,13 +26,13 @@ public class RouteInfoService {
     @Autowired
     Publisher publisher;
     Logger logger = LoggerFactory.getLogger(RouteInfoService.class);
-    public List<OutGoingRouteDTO> sendProcessRoute(IncomingRouteDTO incomingRouteDTO){
+    public List<OutGoingRouteDTO> sendProcessRoute(IncomingRouteDTO incomingRouteDTO, String countryCode){
         //Sorts the list by data
         incomingRouteDTO.getPoints().sort((d1,d2) -> d1.compareTo(d2));
         List<String> coordsToSend = createCoordsToSend(incomingRouteDTO.getPoints());
-        List<String> defeniticeCoords = createDefinitiveCoords(coordsToSend);
+        List<String> definitiveCoords = createDefinitiveCoords(coordsToSend);
         OutGoingRouteDTO out = new OutGoingRouteDTO();
-        List<OutGoingRouteDTO> outGoingRouteDTOS = createListOutGoingDTOs(defeniticeCoords, incomingRouteDTO.getVehicle());
+        List<OutGoingRouteDTO> outGoingRouteDTOS = createListOutGoingDTOs(definitiveCoords, incomingRouteDTO.getVehicle(), countryCode);
         logger.info("route processed");
         return outGoingRouteDTOS;
     }
@@ -74,12 +74,13 @@ public class RouteInfoService {
     }
 
     //Methods to form OutgoingDTO
-    private List<OutGoingRouteDTO> createListOutGoingDTOs(List<String> defeniticeCoords, VehicleDTO vehicleDTO){
+    private List<OutGoingRouteDTO> createListOutGoingDTOs(List<String> defeniticeCoords, VehicleDTO vehicleDTO, String countryCode){
         List<OutGoingRouteDTO> outGoingRouteDTOS = new ArrayList<>();
         int addCount = 0;
         for(String coords : defeniticeCoords){
             try{
                 OutGoingRouteDTO out = new OutGoingRouteDTO();
+                out.setCountryCode(countryCode);
                 out = retrieveRouteDataFromOSRM(coords);
                 if(out.getDistance() != null){
                     out.setFuelType(vehicleDTO.getFuelType());

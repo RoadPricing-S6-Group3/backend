@@ -15,11 +15,11 @@ public class IncomingRouteController {
 
     @Autowired
     RouteInfoService routeInfoService;
-    @PostMapping("/submit-raw")
-    public ResponseEntity<List<OutGoingRouteDTO>> retrieveRoute(@RequestBody IncomingRouteDTO incoming){
+    @PostMapping("/submit-raw/{cc}")
+    public ResponseEntity<List<OutGoingRouteDTO>> retrieveRoute(@RequestBody IncomingRouteDTO incoming, @PathVariable(value = "cc")String cc){
 
         IncomingRouteDTO recieved = incoming;
-        List<OutGoingRouteDTO> outs = routeInfoService.sendProcessRoute(recieved);
+        List<OutGoingRouteDTO> outs = routeInfoService.sendProcessRoute(recieved, cc);
         return ResponseEntity.ok().body(outs);
     }
 }
