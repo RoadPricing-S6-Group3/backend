@@ -80,8 +80,8 @@ public class RouteInfoService {
         for(String coords : defeniticeCoords){
             try{
                 OutGoingRouteDTO out = new OutGoingRouteDTO();
-                out.setCountryCode(countryCode);
                 out = retrieveRouteDataFromOSRM(coords);
+                out.setCountryCode(countryCode);
                 if(out.getDistance() != null){
                     out.setFuelType(vehicleDTO.getFuelType());
                     out.setVehicleType(vehicleDTO.getVehicleClassification());

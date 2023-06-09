@@ -185,6 +185,13 @@ services:
       - "27017:27017"
     networks:
       - spring-net
+  roadpricing-gateway:
+    container_name: roadpricing-gateway
+    image: ghcr.io/roadpricing-s6-group3/roadpricing-gateway:latest
+    networks:
+      spring-net:
+    ports:
+      - "8089:8089"
 
 networks:
   spring-net:
