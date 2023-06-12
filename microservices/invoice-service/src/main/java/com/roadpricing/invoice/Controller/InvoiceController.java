@@ -1,8 +1,11 @@
 package com.roadpricing.invoice.Controller;
 
+import com.roadpricing.invoice.Model.IncomingInvoice;
 import com.roadpricing.invoice.Model.Invoice;
 import com.roadpricing.invoice.Service.InvoiceService;
 import com.roadpricing.invoice.Service.RabbitService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +20,8 @@ public class InvoiceController {
     InvoiceService service;
     @Autowired
     RabbitService rabbitService;
+
+    private static final Logger logger = LoggerFactory.getLogger(InvoiceController.class);
 
     @GetMapping()
     public ResponseEntity<List<Invoice>> getAllInvoices(){
@@ -73,5 +78,10 @@ public class InvoiceController {
         catch (Exception e){
             return ResponseEntity.badRequest().build();
         }
+    }
+    @PostMapping("/return-processed")
+    public ResponseEntity<String> receiveInvoice(@RequestBody IncomingInvoice incomingInvoice){
+        logger.info("Recieved Invoice: " + incomingInvoice.toString());
+        return ResponseEntity.ok().body("Received Invoice");
     }
 }
