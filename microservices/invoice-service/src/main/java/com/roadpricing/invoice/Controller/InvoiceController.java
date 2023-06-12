@@ -80,14 +80,14 @@ public class InvoiceController {
         }
     }
     @PostMapping("/return-processed")
-    public ResponseEntity<String> receiveInvoice(@RequestBody IncomingInvoice incomingInvoice){
+    public ResponseEntity receiveInvoice(@RequestBody IncomingInvoice incomingInvoice){
         try{
             logger.info("Recieved Invoice: " + incomingInvoice.toString());
-            return ResponseEntity.ok().body("Received Invoice");
+            return ResponseEntity.ok().build();
         }
         catch (Exception e){
             logger.error("Error: " + e);
-            return ResponseEntity.badRequest().body("Error" + e);
+            return ResponseEntity.badRequest().build();
         }
     }
 }
