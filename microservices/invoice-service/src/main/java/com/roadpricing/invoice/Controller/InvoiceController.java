@@ -85,13 +85,15 @@ public class InvoiceController {
         }
     }
     @PostMapping("/return-processed")
-    public ResponseEntity receiveInvoice(@RequestBody IncomingInvoice incomingInvoice){
+    public ResponseEntity receiveInvoice(@RequestBody String incomingInvoice){
         logger.info("Received an Incoming Invoice 📄");
+        logger.info(incomingInvoice);
         try{
-            logger.info("Invoice id: " + "[ " + incomingInvoice.getId() + " ]" + "[ 🪪 ]");
-            logger.info("Invoice price: " + "[ " + incomingInvoice.getPriceTotal() + " ]" + "[ 💰 ]");
-            if(incomingInvoice.getSegments() != null ||incomingInvoice.getSegments().size() != 0){
-                for (InvoiceSegment segment: incomingInvoice.getSegments()) {
+            IncomingInvoice invoice =  objectMapper.readValue(incomingInvoice, IncomingInvoice.class);
+            logger.info("Invoice id: " + "[ " + invoice.getId() + " ]" + "[ 🪪 ]");
+            logger.info("Invoice price: " + "[ " + invoice.getPriceTotal() + " ]" + "[ 💰 ]");
+            if(invoice.getSegments() != null){
+                for (InvoiceSegment segment: invoice.getSegments()) {
                     logger.info("Segment time: " + "[ " + segment.getTime() + " ]" + "[ 🕜 ]");
                     logger.info("Segment way: " + "[ " + segment.getWay().getId() + " ]" + "[ 🛣️ ]");
                     logger.info("Segment Price: " + "[ " + segment.getPrice() + " ]" + "[ 🪙 ]");
