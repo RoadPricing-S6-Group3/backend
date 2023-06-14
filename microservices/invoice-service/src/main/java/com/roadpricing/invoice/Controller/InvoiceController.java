@@ -82,7 +82,8 @@ public class InvoiceController {
     @PostMapping("/return-processed")
     public ResponseEntity receiveInvoice(@RequestBody IncomingInvoice incomingInvoice){
         try{
-            logger.info("Recieved Invoice: " + incomingInvoice.toString());
+            logger.info("Received an Incoming Invoice");
+            logger.info("Invoice: " + "[ " + incomingInvoice.getId() + " ]" + incomingInvoice.getSegments());
             return ResponseEntity.ok().build();
         }
         catch (Exception e){
