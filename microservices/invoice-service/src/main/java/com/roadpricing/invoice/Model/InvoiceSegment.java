@@ -10,7 +10,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class InvoiceSegment implements Serializable {
 
-    private Date time;
+    private String time;
     private Double price;
 
     private SegmentStart start;
@@ -21,11 +21,11 @@ public class InvoiceSegment implements Serializable {
 
 //Getters & Setters
 
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(String time) {
         this.time = time;
     }
 
