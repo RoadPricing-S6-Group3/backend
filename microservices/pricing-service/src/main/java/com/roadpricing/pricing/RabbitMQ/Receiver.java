@@ -36,12 +36,14 @@ public class Receiver {
             logger.error("ERROR: " + e);
         }
         repo.save(pricing);
-        if(!pricing.getInProgress()) {
-            List<Pricing> pricingData = repo.findAllByRouteId(pricing.getRouteId());
-            BigDecimal price = service.getTotalPrice(pricingData);
-            String countryCode = pricingData.get(0).getCountryCode();
-            service.postTotalPrice(price, countryCode);
-        }
+        String routeId = pricing.getRouteId();
+        String countryCode = pricing.getCountryCode();
+        BigDecimal price = service.getSegmentPrice(pricing.getDistance(), pricing.getRoadType(), pricing.getFuelType(), pricing.getVehicleType());
+        Double startLat = pricing.getStartLat();
+        Double startLon = pricing.getStartLon();
+        Double endLat = pricing.getEndLat();
+        Double endLon = pricing.getEndLon();
+        service.postToInvoice(routeId, countryCode, price, startLat, startLon, endLat, endLon);
 
         latch.countDown();
     }

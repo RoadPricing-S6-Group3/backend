@@ -1,6 +1,9 @@
 package com.roadpricing.pricing.Service;
 
+import com.roadpricing.pricing.Dto.InvoiceSegment;
 import com.roadpricing.pricing.Dto.PriceDto;
+import com.roadpricing.pricing.Dto.SegmentEnd;
+import com.roadpricing.pricing.Dto.SegmentStart;
 import com.roadpricing.pricing.Model.Pricing;
 import com.roadpricing.pricing.RabbitMQ.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,21 +109,30 @@ public class PricingService {
         return 0f;
     }
 
-    public BigDecimal getTotalPrice(List<Pricing> travelData){
-        float total = 0f;
-        for(Pricing record : travelData) {
-            float price = (record.getDistance().floatValue() / 1000) * getRoadPrice(record.getRoadType()) * getFuelPrice(record.getFuelType()) * getVehiclePrice(record.getVehicleType());
-            total += price;
-        }
-        BigDecimal bigDecimal = new BigDecimal(total);
+    public BigDecimal getSegmentPrice(BigDecimal distance, String roadType, String fuelType, String vehicleType){
+        float segment = 0f;
+        float price = (distance.floatValue() / 1000) * getRoadPrice(roadType) * getFuelPrice(fuelType) * getVehiclePrice(vehicleType);
+        segment += price;
+        BigDecimal bigDecimal = new BigDecimal(segment);
         BigDecimal roundedValue = bigDecimal.setScale(2, BigDecimal.ROUND_HALF_UP);
         return roundedValue;
     }
 
-    public void postTotalPrice(BigDecimal price, String countryCode){
+    public void postToInvoice(String routeId, String countryCode, BigDecimal price, Double startLat, Double startLon, Double endLat, Double endLon){
+        SegmentStart start = new SegmentStart();
+        start.setLat(startLat);
+        start.setLon(startLon);
+        SegmentEnd end = new SegmentEnd();
+        end.setLat(endLat);
+        end.setLon(endLon);
+        InvoiceSegment segment = new InvoiceSegment();
+        segment.setPrice(price.doubleValue());
+        segment.setStart(start);
+        segment.setEnd(end);
         PriceDto dto = new PriceDto();
-        dto.setTotal(price);
+        dto.setRouteId(routeId);
         dto.setCountryCode(countryCode);
+        dto.setSegment(segment);
         publisher.sendData(dto);
     }
 

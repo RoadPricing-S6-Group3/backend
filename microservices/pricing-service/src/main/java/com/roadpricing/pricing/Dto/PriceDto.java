@@ -3,21 +3,26 @@ package com.roadpricing.pricing.Dto;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
 public class PriceDto implements Serializable {
-    private BigDecimal total;
+    private String routeId;
     private String countryCode;
+    private InvoiceSegment segment;
 
-    public BigDecimal getTotal(){
-        return total;
+
+
+    public String getRouteId() {
+        return routeId;
     }
 
-    public void setTotal(BigDecimal total){
-        this.total = total;
+    public void setRouteId(String routeId) {
+        this.routeId = routeId;
     }
 
     public String getCountryCode(){
@@ -26,5 +31,13 @@ public class PriceDto implements Serializable {
 
     public void setCountryCode(String countryCode){
         this.countryCode = countryCode;
+    }
+
+    public InvoiceSegment getSegment() {
+        return this.segment;
+    }
+
+    public void setSegment(InvoiceSegment segment) {
+        this.segment = segment;
     }
 }

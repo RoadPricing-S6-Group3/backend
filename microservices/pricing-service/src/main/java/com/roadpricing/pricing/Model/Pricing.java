@@ -16,8 +16,12 @@ public class Pricing implements Serializable {
     private String roadType;
     private String roadName;
     private BigDecimal distance;
-
     private String countryCode;
+    private String time;
+    private Double startLat;
+    private Double startLon;
+    private Double endLat;
+    private Double endLon;
 
     public String getRouteId(){
         return routeId;
@@ -82,4 +86,24 @@ public class Pricing implements Serializable {
     public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
     }
+
+    public String getTime() { return time; }
+
+    public void setTime(String time) { this.time = time; }
+
+    public Double getStartLat() { return startLat; }
+
+    public void setStartLat(Double startLat) { this.startLat = startLat; }
+
+    public Double getStartLon() { return startLon; }
+
+    public void setStartLon(Double startLon) { this.startLon = startLon; }
+
+    public Double getEndLat() { return endLat; }
+
+    public void setEndLat(Double endLat) { this.endLat = endLat; }
+
+    public Double getEndLon() { return endLon; }
+
+    public void setEndLon(Double endLon) { this.endLon = endLon; }
 }

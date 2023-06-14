@@ -54,7 +54,7 @@ public class PricingController {
     public ResponseEntity<BigDecimal> get(@PathVariable(value = "id")int id){
         try{
             List<Pricing> travelData = service.getAllById(id);
-            BigDecimal price = service.getTotalPrice(travelData);
+            BigDecimal price = service.getSegmentPrice(travelData);
             return ResponseEntity.ok().body(price);
         }
         catch (Exception e){
