@@ -15,11 +15,13 @@ public class OutGoingRouteDTO implements Serializable {
     private String vehicleType;
     private String fuelType;
     private String roadType;
-
     private String countryCode;
-
     private String roadName;
     private BigDecimal distance;
+    private Double startLat;
+    private Double startLon;
+    private Double endLat;
+    private Double endLon;
 
 //Getters & Setters
     public String getRouteId() {
@@ -84,5 +86,37 @@ public class OutGoingRouteDTO implements Serializable {
 
     public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
+    }
+
+    public Double getStartLat() {
+        return startLat;
+    }
+
+    public void setStartLat(Double startLat) {
+        this.startLat = startLat;
+    }
+
+    public Double getStartLon() {
+        return startLon;
+    }
+
+    public void setStartLon(Double startLon) {
+        this.startLon = startLon;
+    }
+
+    public Double getEndLat() {
+        return endLat;
+    }
+
+    public void setEndLat(Double endLat) {
+        this.endLat = endLat;
+    }
+
+    public Double getEndLon() {
+        return endLon;
+    }
+
+    public void setEndLon(Double endLon) {
+        this.endLon = endLon;
     }
 }
