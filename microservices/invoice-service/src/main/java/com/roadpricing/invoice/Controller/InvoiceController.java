@@ -1,5 +1,6 @@
 package com.roadpricing.invoice.Controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.roadpricing.invoice.Model.IncomingInvoice;
 import com.roadpricing.invoice.Model.Invoice;
 import com.roadpricing.invoice.Service.InvoiceService;
@@ -20,6 +21,9 @@ public class InvoiceController {
     InvoiceService service;
     @Autowired
     RabbitService rabbitService;
+
+    @Autowired
+    ObjectMapper objectMapper;
 
     private static final Logger logger = LoggerFactory.getLogger(InvoiceController.class);
 
@@ -80,14 +84,16 @@ public class InvoiceController {
         }
     }
     @PostMapping("/return-processed")
-    public ResponseEntity receiveInvoice(@RequestBody IncomingInvoice incomingInvoice){
+    public ResponseEntity receiveInvoice(@RequestBody String incomingInvoice){
+        logger.info("Received an Incoming Invoice 📄");
         try{
-            logger.info("Received an Incoming Invoice");
-            logger.info("Invoice: " + "[ " + incomingInvoice.getId() + " ]" + incomingInvoice.getSegments());
+            IncomingInvoice incoming = objectMapper.readValue(incomingInvoice, IncomingInvoice.class);
+            logger.info("Invoice: " + "[ " + incoming.getId() + " ]");
             return ResponseEntity.ok().build();
         }
         catch (Exception e){
             logger.error("Error: " + e);
+            logger.error("Invoice is not correct: ❌");
             return ResponseEntity.badRequest().build();
         }
     }

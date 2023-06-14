@@ -3,9 +3,11 @@ package com.roadpricing.invoice.Model;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @NoArgsConstructor
 @AllArgsConstructor
-public class SegmentWay {
+public class SegmentWay implements Serializable {
 
     private String id;
 

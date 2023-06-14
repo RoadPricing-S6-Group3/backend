@@ -3,11 +3,12 @@ package com.roadpricing.invoice.Model;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
-public class IncomingInvoice {
+public class IncomingInvoice implements Serializable {
     private String id;
 
     private Double priceTotal;
