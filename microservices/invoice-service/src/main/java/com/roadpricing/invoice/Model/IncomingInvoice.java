@@ -11,6 +11,8 @@ import java.util.List;
 public class IncomingInvoice implements Serializable {
     private String id;
 
+    private String CountrCode;
+
     private Double priceTotal;
 
     private List<InvoiceSegment> segments;
@@ -37,5 +39,12 @@ public class IncomingInvoice implements Serializable {
 
     public void setSegments(List<InvoiceSegment> segments) {
         this.segments = segments;
+    }
+    public String getCountrCode() {
+        return CountrCode;
+    }
+
+    public void setCountrCode(String countrCode) {
+        CountrCode = countrCode;
     }
 }
