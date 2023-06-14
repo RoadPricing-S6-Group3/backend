@@ -3,6 +3,7 @@ package com.roadpricing.invoice.Controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.roadpricing.invoice.Model.IncomingInvoice;
 import com.roadpricing.invoice.Model.Invoice;
+import com.roadpricing.invoice.Model.InvoiceSegment;
 import com.roadpricing.invoice.Service.InvoiceService;
 import com.roadpricing.invoice.Service.RabbitService;
 import org.slf4j.Logger;
@@ -87,7 +88,13 @@ public class InvoiceController {
     public ResponseEntity receiveInvoice(@RequestBody IncomingInvoice incomingInvoice){
         logger.info("Received an Incoming Invoice 📄");
         try{
-            logger.info("Invoice: " + "[ " + incomingInvoice.getId() + " ]");
+            logger.info("Invoice id: " + "[ " + incomingInvoice.getId() + " ]" + "[ 🪪 ]");
+            logger.info("Invoice price: " + "[ " + incomingInvoice.getPriceTotal() + " ]" + "[ 💰 ]");
+            for (InvoiceSegment segment: incomingInvoice.getSegments()) {
+                logger.info("Segment time: " + "[ " + segment.getTime() + " ]" + "[ 🕜 ]");
+                logger.info("Segment way: " + "[ " + segment.getWay().getId() + " ]" + "[ 🛣️ ]");
+                logger.info("Segment Price: " + "[ " + segment.getPrice() + " ]" + "[ 🪙 ]");
+            }
             return ResponseEntity.ok().build();
         }
         catch (Exception e){
