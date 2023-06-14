@@ -39,7 +39,8 @@ public class Receiver {
         if(!pricing.getInProgress()) {
             List<Pricing> pricingData = repo.findAllByRouteId(pricing.getRouteId());
             BigDecimal price = service.getTotalPrice(pricingData);
-            service.postTotalPrice(price);
+            String countryCode = pricingData.get(0).getCountryCode();
+            service.postTotalPrice(price, countryCode);
         }
 
         latch.countDown();
