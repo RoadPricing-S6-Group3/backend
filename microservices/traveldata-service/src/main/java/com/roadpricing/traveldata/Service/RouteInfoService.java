@@ -32,7 +32,7 @@ public class RouteInfoService {
         List<String> coordsToSend = createCoordsToSend(incomingRouteDTO.getPoints());
         List<String> definitiveCoords = createDefinitiveCoords(coordsToSend);
         OutGoingRouteDTO out = new OutGoingRouteDTO();
-        List<OutGoingRouteDTO> outGoingRouteDTOS = createListOutGoingDTOs(definitiveCoords, incomingRouteDTO.getVehicle(), countryCode);
+        List<OutGoingRouteDTO> outGoingRouteDTOS = createListOutGoingDTOs(definitiveCoords, incomingRouteDTO.getVehicle(), countryCode, incomingRouteDTO.getPoints());
         logger.info("route processed");
         return outGoingRouteDTOS;
     }
@@ -74,7 +74,7 @@ public class RouteInfoService {
     }
 
     //Methods to form OutgoingDTO
-    private List<OutGoingRouteDTO> createListOutGoingDTOs(List<String> defeniticeCoords, VehicleDTO vehicleDTO, String countryCode){
+    private List<OutGoingRouteDTO> createListOutGoingDTOs(List<String> defeniticeCoords, VehicleDTO vehicleDTO, String countryCode, List<PointDTO> points){
         List<OutGoingRouteDTO> outGoingRouteDTOS = new ArrayList<>();
         int addCount = 0;
         for(String coords : defeniticeCoords){
@@ -89,8 +89,39 @@ public class RouteInfoService {
                 }
                 if( addCount + 1 < defeniticeCoords.size()){
                     out.setInProgress(true);
+
+                    PointDTO pointStart = points.get(addCount);
+                    PointDTO pointEnd = points.get(addCount + 1);
+
+                    String startLat = pointStart.getLat();
+                    String startLon = pointStart.getLon();
+
+                    String endLat = pointEnd.getLat();
+                    String endLon = pointEnd.getLon();
+
+                    out.setStartLat(Double.parseDouble(startLat));
+                    out.setStartLon(Double.parseDouble(startLon));
+
+                    out.setEndLat(Double.parseDouble(endLat));
+                    out.setEndLon(Double.parseDouble(endLon));
+
                     addCount ++;
                 } else if (addCount + 1 == defeniticeCoords.size()) {
+                    PointDTO pointStart = points.get(addCount);
+                    PointDTO pointEnd = points.get(addCount + 1);
+
+                    String startLat = pointStart.getLat();
+                    String startLon = pointStart.getLon();
+
+                    String endLat = pointEnd.getLat();
+                    String endLon = pointEnd.getLon();
+
+                    out.setStartLat(Double.parseDouble(startLat));
+                    out.setStartLon(Double.parseDouble(startLon));
+
+                    out.setEndLat(Double.parseDouble(endLat));
+                    out.setEndLon(Double.parseDouble(endLon));
+
                     out.setInProgress(false);
                 }
                 outGoingRouteDTOS.add(out);
