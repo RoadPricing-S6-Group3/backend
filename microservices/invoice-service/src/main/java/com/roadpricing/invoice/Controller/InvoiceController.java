@@ -90,7 +90,7 @@ public class InvoiceController {
         try{
             logger.info("Invoice id: " + "[ " + incomingInvoice.getId() + " ]" + "[ 🪪 ]");
             logger.info("Invoice price: " + "[ " + incomingInvoice.getPriceTotal() + " ]" + "[ 💰 ]");
-            if(incomingInvoice.getSegments().size() != 0){
+            if(incomingInvoice.getSegments() != null ||incomingInvoice.getSegments().size() != 0){
                 for (InvoiceSegment segment: incomingInvoice.getSegments()) {
                     logger.info("Segment time: " + "[ " + segment.getTime() + " ]" + "[ 🕜 ]");
                     logger.info("Segment way: " + "[ " + segment.getWay().getId() + " ]" + "[ 🛣️ ]");
