@@ -1,5 +1,6 @@
 package com.roadpricing.pricing.Service;
 
+import com.roadpricing.pricing.Dto.PriceDto;
 import com.roadpricing.pricing.Model.Pricing;
 import com.roadpricing.pricing.RabbitMQ.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,11 +117,11 @@ public class PricingService {
         return roundedValue;
     }
 
-    public void postTotalPrice(BigDecimal price){
-        System.out.println(price);
-        String priceToSend = price.toString();
-        System.out.println(priceToSend);
-        publisher.sendData(priceToSend);
+    public void postTotalPrice(BigDecimal price, String countryCode){
+        PriceDto dto = new PriceDto();
+        dto.setTotal(price);
+        dto.setCountryCode(countryCode);
+        publisher.sendData(dto);
     }
 
     public List<Pricing> getAllById(int id){
