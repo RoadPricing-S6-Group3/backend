@@ -90,10 +90,12 @@ public class InvoiceController {
         try{
             logger.info("Invoice id: " + "[ " + incomingInvoice.getId() + " ]" + "[ 🪪 ]");
             logger.info("Invoice price: " + "[ " + incomingInvoice.getPriceTotal() + " ]" + "[ 💰 ]");
-            for (InvoiceSegment segment: incomingInvoice.getSegments()) {
-                logger.info("Segment time: " + "[ " + segment.getTime() + " ]" + "[ 🕜 ]");
-                logger.info("Segment way: " + "[ " + segment.getWay().getId() + " ]" + "[ 🛣️ ]");
-                logger.info("Segment Price: " + "[ " + segment.getPrice() + " ]" + "[ 🪙 ]");
+            if(incomingInvoice.getSegments().size() != 0){
+                for (InvoiceSegment segment: incomingInvoice.getSegments()) {
+                    logger.info("Segment time: " + "[ " + segment.getTime() + " ]" + "[ 🕜 ]");
+                    logger.info("Segment way: " + "[ " + segment.getWay().getId() + " ]" + "[ 🛣️ ]");
+                    logger.info("Segment Price: " + "[ " + segment.getPrice() + " ]" + "[ 🪙 ]");
+                }
             }
             return ResponseEntity.ok().build();
         }
