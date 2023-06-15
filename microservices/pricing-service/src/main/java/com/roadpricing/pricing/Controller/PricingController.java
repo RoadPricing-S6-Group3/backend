@@ -50,15 +50,15 @@ public class PricingController {
         }
     }
 
-    @GetMapping("/id/{id}")
-    public ResponseEntity<BigDecimal> get(@PathVariable(value = "id")int id){
-        try{
-            List<Pricing> travelData = service.getAllById(id);
-            BigDecimal price = service.getSegmentPrice(travelData);
-            return ResponseEntity.ok().body(price);
-        }
-        catch (Exception e){
-            return ResponseEntity.badRequest().body(null);
-        }
-    }
+//    @GetMapping("/id/{id}")
+//    public ResponseEntity<BigDecimal> get(@PathVariable(value = "id")int id){
+//        try{
+//            List<Pricing> travelData = service.getAllById(id);
+//            BigDecimal price = service.getSegmentPrice(travelData);
+//            return ResponseEntity.ok().body(price);
+//        }
+//        catch (Exception e){
+//            return ResponseEntity.badRequest().body(null);
+//        }
+//    }
 }
