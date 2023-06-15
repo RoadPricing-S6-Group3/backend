@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class OutGoingRouteDTO implements Serializable {
 
+    private String time;
     private String routeId;
     private Boolean inProgress;
     private String vehicleType;
@@ -118,5 +119,13 @@ public class OutGoingRouteDTO implements Serializable {
 
     public void setEndLon(Double endLon) {
         this.endLon = endLon;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }

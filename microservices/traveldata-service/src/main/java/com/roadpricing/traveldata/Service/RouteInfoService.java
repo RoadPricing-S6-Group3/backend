@@ -104,7 +104,7 @@ public class RouteInfoService {
 
                     out.setEndLat(Double.parseDouble(endLat));
                     out.setEndLon(Double.parseDouble(endLon));
-
+                    out.setTime(pointStart.getTime().toString());
                     addCount ++;
                 } else if (addCount + 1 == defeniticeCoords.size()) {
                     PointDTO pointStart = points.get(addCount);
@@ -122,6 +122,7 @@ public class RouteInfoService {
                     out.setEndLat(Double.parseDouble(endLat));
                     out.setEndLon(Double.parseDouble(endLon));
 
+                    out.setTime(pointStart.getTime().toString());
                     out.setInProgress(false);
                 }
                 outGoingRouteDTOS.add(out);

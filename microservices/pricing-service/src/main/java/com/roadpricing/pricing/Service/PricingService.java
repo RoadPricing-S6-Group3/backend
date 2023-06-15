@@ -1,14 +1,12 @@
 package com.roadpricing.pricing.Service;
 
-import com.roadpricing.pricing.Dto.InvoiceSegment;
-import com.roadpricing.pricing.Dto.PriceDto;
-import com.roadpricing.pricing.Dto.SegmentEnd;
-import com.roadpricing.pricing.Dto.SegmentStart;
+import com.roadpricing.pricing.Dto.*;
 import com.roadpricing.pricing.Model.Pricing;
 import com.roadpricing.pricing.RabbitMQ.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.StringReader;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.List;
@@ -118,17 +116,29 @@ public class PricingService {
         return roundedValue;
     }
 
-    public void postToInvoice(String routeId, String countryCode, BigDecimal price, Double startLat, Double startLon, Double endLat, Double endLon){
+    public void postToInvoice(String routeId, String countryCode, BigDecimal price, Double startLat, Double startLon, Double endLat, Double endLon, String time, String roadName, String roadType){
+        if(roadName.isEmpty() || roadName.isBlank() || roadType == null){
+            roadName = "N/A";
+        }
+        if(roadType.isEmpty() || roadType.isBlank() || roadType == null){
+            roadType = "N/A";
+        }
+        SegmentWay way = new SegmentWay();
+        way.setId(roadName);
         SegmentStart start = new SegmentStart();
         start.setLat(startLat);
         start.setLon(startLon);
+        start.setId(roadType);
         SegmentEnd end = new SegmentEnd();
         end.setLat(endLat);
         end.setLon(endLon);
+        end.setId(roadType);
         InvoiceSegment segment = new InvoiceSegment();
         segment.setPrice(price.doubleValue());
         segment.setStart(start);
         segment.setEnd(end);
+        segment.setTime(time);
+        segment.setWay(way);
         PriceDto dto = new PriceDto();
         dto.setRouteId(routeId);
         dto.setCountryCode(countryCode);

@@ -43,7 +43,10 @@ public class Receiver {
         Double startLon = pricing.getStartLon();
         Double endLat = pricing.getEndLat();
         Double endLon = pricing.getEndLon();
-        service.postToInvoice(routeId, countryCode, price, startLat, startLon, endLat, endLon);
+        String time = pricing.getTime();
+        String roadType = pricing.getRoadType();
+        String roadName = pricing.getRoadName();
+        service.postToInvoice(routeId, countryCode, price, startLat, startLon, endLat, endLon, time, roadName,roadType);
 
         latch.countDown();
     }

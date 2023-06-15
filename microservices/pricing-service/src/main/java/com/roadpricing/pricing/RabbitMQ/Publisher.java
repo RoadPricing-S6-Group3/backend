@@ -25,7 +25,7 @@ public class Publisher {
     }
 
     public void sendData(PriceDto dto) {
-        rabbitTemplate.convertAndSend(Config.exchangeName2, Config.routingKey2, dto);
+//        rabbitTemplate.convertAndSend(Config.exchangeName2, Config.routingKey2, dto);
         try{
             String message = objectMapper.writeValueAsString(dto);
             rabbitTemplate.convertAndSend(Config.exchangeName2, Config.routingKey2, message);

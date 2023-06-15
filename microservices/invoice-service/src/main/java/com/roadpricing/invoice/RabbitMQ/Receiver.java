@@ -3,6 +3,7 @@ package com.roadpricing.invoice.RabbitMQ;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.roadpricing.invoice.Dto.PriceDto;
+import com.roadpricing.invoice.Service.InvoiceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ public class Receiver {
 
     @Autowired
     ObjectMapper objectMapper;
+    @Autowired
+    InvoiceService service;
 
     private final Logger logger = LoggerFactory.getLogger(Receiver.class);
 
@@ -29,5 +32,6 @@ public class Receiver {
         } catch (JsonProcessingException e) {
             logger.error("ERROR: " + e);
         }
+        service.sendInvoiceToCountry(dto);
     }
 }
