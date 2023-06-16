@@ -6,7 +6,6 @@ import com.roadpricing.pricing.RabbitMQ.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.StringReader;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.List;
@@ -116,7 +115,7 @@ public class PricingService {
         return roundedValue;
     }
 
-    public void postToInvoice(String routeId, String countryCode, BigDecimal price, Double startLat, Double startLon, Double endLat, Double endLon, String time, String roadName, String roadType){
+    public void postToInvoice(String routeId, String countryCode, BigDecimal price, Double startLat, Double startLon, Double endLat, Double endLon, String time, String roadName, String roadType , Boolean inProgress){
         if(roadName.isEmpty() || roadName.isBlank() || roadType == null){
             roadName = "N/A";
         }
@@ -143,6 +142,7 @@ public class PricingService {
         dto.setRouteId(routeId);
         dto.setCountryCode(countryCode);
         dto.setSegment(segment);
+        dto.setInProgress(inProgress);
         publisher.sendData(dto);
     }
 

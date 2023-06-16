@@ -11,6 +11,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PriceDto implements Serializable {
+
+    private Boolean inProgress;
     private String routeId;
     private String countryCode;
     private InvoiceSegment segment;
@@ -39,5 +41,13 @@ public class PriceDto implements Serializable {
 
     public void setSegment(InvoiceSegment segment) {
         this.segment = segment;
+    }
+
+    public Boolean getInProgress() {
+        return inProgress;
+    }
+
+    public void setInProgress(Boolean inProgress) {
+        this.inProgress = inProgress;
     }
 }

@@ -3,12 +3,22 @@ package com.roadpricing.invoice.Dto;
 import com.roadpricing.invoice.Model.InvoiceSegment;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.io.Serializable;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Document(collection = "priceDTO")
 public class PriceDto implements Serializable {
+
+    @Id
+    @MongoId
+    private String id;
+
+    private Boolean inProgress;
     private String routeId;
     private String countryCode;
     private InvoiceSegment segment;
@@ -37,5 +47,21 @@ public class PriceDto implements Serializable {
 
     public void setSegment(InvoiceSegment segment) {
         this.segment = segment;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Boolean getInProgress() {
+        return inProgress;
+    }
+
+    public void setInProgress(Boolean inProgress) {
+        this.inProgress = inProgress;
     }
 }

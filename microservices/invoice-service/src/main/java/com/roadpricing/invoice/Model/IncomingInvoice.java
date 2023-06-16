@@ -9,7 +9,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class IncomingInvoice implements Serializable {
-    private String id;
+        private String id;
 
     private Double priceTotal;
 

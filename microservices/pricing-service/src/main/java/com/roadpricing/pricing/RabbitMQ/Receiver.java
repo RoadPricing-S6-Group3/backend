@@ -39,6 +39,7 @@ public class Receiver {
         String routeId = pricing.getRouteId();
         String countryCode = pricing.getCountryCode();
         BigDecimal price = service.getSegmentPrice(pricing.getDistance(), pricing.getRoadType(), pricing.getFuelType(), pricing.getVehicleType());
+        Boolean inProgress = pricing.getInProgress();
         Double startLat = pricing.getStartLat();
         Double startLon = pricing.getStartLon();
         Double endLat = pricing.getEndLat();
@@ -46,7 +47,7 @@ public class Receiver {
         String time = pricing.getTime();
         String roadType = pricing.getRoadType();
         String roadName = pricing.getRoadName();
-        service.postToInvoice(routeId, countryCode, price, startLat, startLon, endLat, endLon, time, roadName,roadType);
+        service.postToInvoice(routeId, countryCode, price, startLat, startLon, endLat, endLon, time, roadName,roadType, inProgress);
 
         latch.countDown();
     }
