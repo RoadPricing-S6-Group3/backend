@@ -8,9 +8,7 @@ import com.roadpricing.invoice.Repo.InvoiceRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -62,25 +60,29 @@ public class InvoiceService {
 
     private void sendInvoice(IncomingInvoice invoice, String cc){
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = null;
         String url = createUrl(cc);
         try{
             logger.info("Try Sending to " + cc);
-            response = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<IncomingInvoice> invoiceHttpEntity = new HttpEntity<>(invoice, headers);
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, invoiceHttpEntity, String.class);
             logger.info(response.toString());
+            if(response.getStatusCode().is2xxSuccessful()){
+                priceService.deleteAllByRoutId(invoice.getId());
+            }
         }
         catch (Exception e){
             logger.info("Could not send Request");
         }
-        priceService.deleteAllByRoutId(invoice.getId());
     }
     private String createUrl(String cc){
         String url = "N/A";
         if(cc.equals("nl") || cc.equals("NL")){
-            url = "http://34.140.232.108/api/return-processed/" + cc;
+            url = "http://34.140.232.108/api/invoice/return-processed";
         }
         else if(cc.equals("be") || cc.equals("BE")){
-            url = "https://international.oibss.nl/api/return-processed?cc="+cc.toUpperCase();
+            url = "https://international.oibss.nl/return-processed?cc="+cc.toUpperCase();
         }
         else if (cc.equals("lux") || cc.equals("LUX")){
             url = "http://34.159.70.126/api/return-processed?cc="+cc.toUpperCase();
