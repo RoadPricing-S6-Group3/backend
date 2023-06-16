@@ -77,13 +77,13 @@ public class InvoiceService {
     private String createUrl(String cc){
         String url = "N/A";
         if(cc.equals("nl") || cc.equals("NL")){
-            url = "http://34.140.232.108/api/return-processed";
+            url = "http://34.140.232.108/api/return-processed/" + cc;
         }
         else if(cc.equals("be") || cc.equals("BE")){
-            url = "https://international.oibss.nl/api/return-processed";
+            url = "https://international.oibss.nl/api/return-processed?cc="+cc.toUpperCase();
         }
         else if (cc.equals("lux") || cc.equals("LUX")){
-            url = "http://34.159.70.126/api/return-processed";
+            url = "http://34.159.70.126/api/return-processed?cc="+cc.toUpperCase();
         }
         return url;
     }
