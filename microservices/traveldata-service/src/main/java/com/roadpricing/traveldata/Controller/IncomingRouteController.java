@@ -24,6 +24,7 @@ public class IncomingRouteController {
         logger.info("Received incoming raw-route from country: [ " + cc + " ] [ 🗺️ ]" );
         IncomingRouteDTO recieved = incoming;
         List<OutGoingRouteDTO> outs = routeInfoService.sendProcessRoute(recieved, cc);
+        logger.info("Finished processing raw-route from country: [ " + cc + " ] [ 🏁 ]" );
         return ResponseEntity.ok().body(outs);
     }
 }
