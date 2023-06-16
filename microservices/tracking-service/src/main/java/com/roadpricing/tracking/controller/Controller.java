@@ -8,10 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 @RestController
 @RequestMapping("/api/tracking")
 public class Controller {
@@ -24,7 +22,8 @@ public class Controller {
     private static final Logger logger = LoggerFactory.getLogger(Controller.class);
     @GetMapping("/coord/{coordinatesbegin}/{coordinatesend}")
     public ResponseEntity<RouteModel> createRoute(@PathVariable("coordinatesbegin")String coordinatesbegin,
-                                                  @PathVariable (value = "coordinatesend")String coordinatesend){
+                                                  @PathVariable (value = "coordinatesend")String coordinatesend,
+                                                  @RequestParam("cc")String cc){
         String cords = coordinatesbegin + ";" + coordinatesend;
         RouteModel routeModel = new RouteModel();
         try {
@@ -34,7 +33,7 @@ public class Controller {
         }
         OutGoingRouteDTO outGoingRouteDTO = outGoingService.createOutGoingRouteDTO(routeModel);
         try{
-            String response = outGoingService.sendToTravelData(outGoingRouteDTO);
+            String response = outGoingService.sendToTravelData(outGoingRouteDTO, cc);
             logger.info("Send route to TravelData");
         }
         catch (Exception e){

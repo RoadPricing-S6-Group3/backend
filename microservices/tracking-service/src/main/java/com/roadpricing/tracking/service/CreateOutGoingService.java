@@ -44,12 +44,12 @@ public class CreateOutGoingService {
         outGoingRouteDTO.setVehicle(vehicleDTO);
         return outGoingRouteDTO;
     }
-    public String sendToTravelData(OutGoingRouteDTO dto){
+    public String sendToTravelData(OutGoingRouteDTO dto, String cc){
         String toReturn = "";
         try{
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
-            String url = "http://localhost:8085/api/route/submit-raw?cc=NL";
+            String url = "http://34.140.232.108/api/route/submit-raw?cc=" + cc;
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<OutGoingRouteDTO> outGoingRouteDTOHttpEntity = new HttpEntity<>(dto, headers);
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, outGoingRouteDTOHttpEntity, String.class);
