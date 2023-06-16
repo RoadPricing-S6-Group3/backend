@@ -88,13 +88,13 @@ public class InvoiceController {
     public ResponseEntity receiveInvoice(@RequestBody String incomingInvoice, @PathVariable(value = "cc")String cc){
         String ccEmoji = "";
         if(cc.equals("nl") || cc.equals("NL")){
-            ccEmoji = " 🧀";
+            ccEmoji = " 🧀 🇳🇱 ";
         }
         else if(cc.equals("be") || cc.equals("BE")){
-            ccEmoji = " 🧇";
+            ccEmoji = " 🧇 🇧🇪";
         }
         else if (cc.equals("lux") || cc.equals("LUX")){
-            ccEmoji = " 💰✨";
+            ccEmoji = " 💰✨ 🇱🇺";
         }
         logger.info("Received an Incoming Invoice 📄 from country: [ " + cc + ccEmoji +" ]");
         logger.info(incomingInvoice);
