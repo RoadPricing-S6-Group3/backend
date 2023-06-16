@@ -77,7 +77,7 @@ public class InvoiceService {
     private String createUrl(String cc){
         String url = "N/A";
         if(cc.equals("nl") || cc.equals("NL")){
-            url = "http://34.140.150.168/api/return-processed";
+            url = "http://34.140.232.108/api/return-processed";
         }
         else if(cc.equals("be") || cc.equals("BE")){
             url = "https://international.oibss.nl/api/return-processed";
