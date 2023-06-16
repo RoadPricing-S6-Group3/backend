@@ -4,60 +4,59 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
 public class InvoiceSegment implements Serializable {
 
-    private String time;
-    private Double price;
+    private String Time;
+    private Double Price;
 
-    private SegmentStart start;
+    private SegmentStart Start;
 
-    private SegmentWay way;
+    private SegmentWay Way;
 
-    private SegmentEnd end;
+    private SegmentEnd End;
 
 //Getters & Setters
 
     public String getTime() {
-        return time;
+        return Time;
     }
 
     public void setTime(String time) {
-        this.time = time;
+        this.Time = time;
     }
 
     public Double getPrice() {
-        return price;
+        return Price;
     }
 
     public void setPrice(Double price) {
-        this.price = price;
+        this.Price = price;
     }
 
     public SegmentStart getStart() {
-        return start;
+        return Start;
     }
 
     public void setStart(SegmentStart start) {
-        this.start = start;
+        this.Start = start;
     }
 
     public SegmentWay getWay() {
-        return way;
+        return Way;
     }
 
     public void setWay(SegmentWay way) {
-        this.way = way;
+        this.Way = way;
     }
 
     public SegmentEnd getEnd() {
-        return end;
+        return End;
     }
 
     public void setEnd(SegmentEnd end) {
-        this.end = end;
+        this.End = end;
     }
 }

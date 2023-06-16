@@ -9,12 +9,18 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 @Document(collection = "IncomingInvoices")
 @NoArgsConstructor
 @AllArgsConstructor
-public class IncomingInvoiceMongo extends IncomingInvoice{
+public class IncomingInvoiceMongo{
+
+
     @Id
     @MongoId
     private String mongoId;
 
     private String routeDBId;
+
+    private String paymentStatus;
+
+    private IncomingInvoice incomingInvoice;
 
     public String getMongoId() {
         return mongoId;
@@ -30,5 +36,21 @@ public class IncomingInvoiceMongo extends IncomingInvoice{
 
     public void setRouteDBId(String routeDBId) {
         this.routeDBId = routeDBId;
+    }
+
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
+    public IncomingInvoice getIncomingInvoice() {
+        return incomingInvoice;
+    }
+
+    public void setIncomingInvoice(IncomingInvoice incomingInvoice) {
+        this.incomingInvoice = incomingInvoice;
     }
 }

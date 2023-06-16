@@ -12,7 +12,6 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.DataInput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -69,17 +68,27 @@ public class InvoiceService {
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, invoiceHttpEntity, String.class);
             logger.info(response.toString());
             if(response.getStatusCode().is2xxSuccessful()){
-                priceService.deleteAllByRoutId(invoice.getId());
+                IncomingInvoiceMongo found = incomingInvoiceRepo.findByRouteDBId(invoice.getId()).orElse(null);
+                if(found != null){
+                    found.setPaymentStatus("RECEIVED");
+                    incomingInvoiceRepo.save(found);
+                }
+                logger.info("Successfully sent invoice to: " + cc.toUpperCase());
             }
         }
         catch (Exception e){
             logger.info("Could not send Request");
+            IncomingInvoiceMongo found = incomingInvoiceRepo.findByRouteDBId(invoice.getId()).orElse(null);
+            if(found != null){
+                found.setPaymentStatus("FAILED");
+                incomingInvoiceRepo.save(found);
+            }
         }
     }
     private String createUrl(String cc){
         String url = "N/A";
         if(cc.equals("nl") || cc.equals("NL")){
-            url = "http://34.140.232.108/api/invoice/return-processed";
+            url = "http://34.140.232.108/api/invoice/return-processed?cc=" + cc.toUpperCase();
         }
         else if(cc.equals("be") || cc.equals("BE")){
             url = "https://international.oibss.nl/return-processed?cc="+cc.toUpperCase();
@@ -103,6 +112,11 @@ public class InvoiceService {
         invoice.setPriceTotal(priceTotal);
         invoice.setSegments(segments);
         logger.info("Created an Invoice");
+        IncomingInvoiceMongo invoiceToSave = new IncomingInvoiceMongo();
+        invoiceToSave.setRouteDBId(invoice.getId());
+        invoiceToSave.setPaymentStatus("PENDING");
+        invoiceToSave.setIncomingInvoice(invoice);
+        incomingInvoiceRepo.save(invoiceToSave);
         priceService.deleteAllByRoutId(invoice.getId());
         return invoice;
     }

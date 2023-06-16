@@ -42,13 +42,19 @@ public class RouteInfoService {
         RestTemplate restTemplate = new RestTemplate();
         String body = null;
         String url = "http://router.project-osrm.org/route/v1/car/"+ coord +"?geometries=geojson&overview=full&steps=true";
-        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
-        if (response.getStatusCode().is2xxSuccessful()) {
-            body = response.getBody();
-        }
-        else {
-            // Handle error cases
-            throw new Exception("Error occurred: " + response.getStatusCode());
+        try{
+            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
+            if (response.getStatusCode().is2xxSuccessful()) {
+                body = response.getBody();
+            }
+            else {
+                // Handle error cases
+                throw new Exception("Error occurred: " + response.getStatusCode());
+            }
+        }finally {
+            restTemplate.getInterceptors().clear();
+            restTemplate.getMessageConverters().clear();
+            restTemplate = null;
         }
         return convertResponseToOutgoingDTO(body);
     }
@@ -56,7 +62,9 @@ public class RouteInfoService {
     private List<String> createCoordsToSend(List<PointDTO> pointDTOS){
         List<String> coordsToSend = new ArrayList<>();
         for (PointDTO point: pointDTOS) {
-            coordsToSend.add(point.getLat()+","+point.getLon());
+            StringBuilder sb = new StringBuilder();
+            sb.append(point.getLat()).append(",").append(point.getLon());
+            coordsToSend.add(sb.toString());
         }
         return coordsToSend;
     }
@@ -65,10 +73,12 @@ public class RouteInfoService {
     private List<String> createDefinitiveCoords(List<String> coords){
         List<String> definitiveCoords = new ArrayList<>();
         for (int i = 0; i + 1 < coords.size(); i += 1){
-            String startendcoord;
-            startendcoord = coords.get(i);
-            startendcoord = startendcoord + ";" + coords.get(i + 1);
-            definitiveCoords.add(startendcoord);
+            StringBuilder sb = new StringBuilder();
+            sb.append(coords.get(i)).append(";").append(coords.get(i + 1));
+//            String startendcoord;
+//            startendcoord = coords.get(i);
+//            startendcoord = startendcoord + ";" + coords.get(i + 1);
+            definitiveCoords.add(sb.toString());
         }
         return definitiveCoords;
     }
@@ -169,40 +179,44 @@ public class RouteInfoService {
         JSONObject steps = legs.getJSONObject(0);
         JSONArray steps2 = steps.getJSONArray("steps");
         JSONObject steps3 = steps2.getJSONObject(0);
-        try{
-            roadType = (String) steps3.get("ref");
+        if (steps3.has("ref")) {
+            roadType = steps3.getString("ref");
+        } else {
+            logger.error("Could not find 'ref' key");
         }
-        catch (Exception e){
-            logger.error("Error: " + e);
-            logger.error("Could not set roadType");
-            roadInfo.put("roadType", roadType);
+        if (road.has("summary")) {
+            roadName = road.getString("summary");
+        } else {
+            logger.error("Could not find 'summary' key");
         }
-        try{
-            roadName = (String) road.get("summary");
-        }
-        catch (Exception e){
-            logger.error("Error: " + e);
-            logger.error("Could not set roadName");
-            roadInfo.put("roadName", roadName);
-        }
-        if(roadName.isBlank() || roadName.isEmpty()){
+        if(roadName.isBlank() || roadName.isEmpty() || roadName.equals(null)){
             roadInfo.put("roadName", "N/A");
         }else{
             roadInfo.put("roadName", roadName);
         }
-        if(roadType.isBlank() || roadType.isEmpty()){
+        if(roadType.isBlank() || roadType.isEmpty()|| roadType.equals(null)){
             roadInfo.put("roadType", "N/A");
         }
         else {
             roadInfo.put("roadType", roadType);
         }
-
         return roadInfo;
     }
 
     private OutGoingRouteDTO createRoute(Map<String,Object> mapInfo){
         OutGoingRouteDTO outGoingRouteDTO = new OutGoingRouteDTO();
-        outGoingRouteDTO.setDistance((BigDecimal) mapInfo.get("distance"));
+
+        Object distanceObj = mapInfo.get("distance");
+        if (distanceObj instanceof BigDecimal) {
+            outGoingRouteDTO.setDistance((BigDecimal) distanceObj);
+        } else if (distanceObj instanceof Integer) {
+            outGoingRouteDTO.setDistance(BigDecimal.valueOf((Integer) distanceObj));
+        } else if (distanceObj instanceof Long) {
+            outGoingRouteDTO.setDistance(BigDecimal.valueOf((Long) distanceObj));
+        } else {
+            // Handle the case when the distance value is of an unexpected type
+            throw new IllegalArgumentException("Invalid distance value");
+        }
         return outGoingRouteDTO;
     }
 }

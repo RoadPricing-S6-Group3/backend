@@ -27,7 +27,7 @@ public class PricingService {
     }
 
     enum RoadTypes{
-        A, N
+        A, N, R
     }
 
     public String getFirstCharacter(String data){
@@ -95,15 +95,23 @@ public class PricingService {
     }
 
     public float getRoadPrice(String type){
-        String firstCharacter = getFirstCharacter(type);
-        RoadTypes roadType = RoadTypes.valueOf(firstCharacter);
-        switch(roadType){
-            case A:
-                return 1.2f;
-            case N:
-                return 1.1f;
+        if(type.equals("N/A") != true){
+            String firstCharacter = getFirstCharacter(type);
+            RoadTypes roadType = RoadTypes.valueOf(firstCharacter);
+            switch(roadType){
+                case A:
+                    return 1.2f;
+                case N:
+                    return 1.1f;
+                case R:
+                    return 1.3f;
+                default:
+                    return 1.6f;
+            }
         }
-        return 0f;
+        else {
+            return 2.0f;
+        }
     }
 
     public BigDecimal getSegmentPrice(BigDecimal distance, String roadType, String fuelType, String vehicleType){

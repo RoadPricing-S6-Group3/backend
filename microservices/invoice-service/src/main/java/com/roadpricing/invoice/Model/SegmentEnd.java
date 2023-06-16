@@ -9,32 +9,32 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class SegmentEnd implements Serializable {
 
-    private String id;
-    private Double lat;
+    private String Id;
+    private Double Lat;
 
-    private Double lon;
+    private Double Lon;
 
     public String getId() {
-        return id;
+        return Id;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.Id = id;
     }
 
     public Double getLat() {
-        return lat;
+        return Lat;
     }
 
     public void setLat(Double lat) {
-        this.lat = lat;
+        this.Lat = lat;
     }
 
     public Double getLon() {
-        return lon;
+        return Lon;
     }
 
     public void setLon(Double lon) {
-        this.lon = lon;
+        this.Lon = lon;
     }
 }

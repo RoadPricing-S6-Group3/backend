@@ -26,7 +26,7 @@ public class MessageListener {
 
     @RabbitListener(queues = "invoice_queue")
     public void recieveMessage(String message){
-        System.out.println("Received message: " + message);
+        logger.info("Received message: " + message);
         PriceDto dto = null;
         try {
             dto = objectMapper.readValue(message, PriceDto.class);
@@ -36,10 +36,12 @@ public class MessageListener {
         }
         if(dto != null && dto.getRouteId().isEmpty() != true && dto.getRouteId().isBlank() != true ){
             priceService.savePriceDto(dto);
+            if(!dto.getInProgress()){
+                List<PriceDto> priceDtos = priceService.findAll(dto.getRouteId());
+                logger.info("Start Sending to Other Country");
+                service.sendInvoiceToCountry(priceDtos, dto.getCountryCode());
+            }
         }
-        if(dto.getInProgress() == false){
-            List<PriceDto> priceDtos = priceService.findAll(dto.getRouteId());
-            service.sendInvoiceToCountry(priceDtos, dto.getCountryCode());
-        }
+
     }
 }

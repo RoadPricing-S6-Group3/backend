@@ -9,13 +9,13 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class SegmentWay implements Serializable {
 
-    private String id;
+    private String Id;
 
     public String getId() {
-        return id;
+        return Id;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.Id = id;
     }
 }

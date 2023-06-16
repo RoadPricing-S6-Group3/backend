@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface IncomingInvoiceRepo extends MongoRepository<IncomingInvoiceMongo, String> {
 
     List<IncomingInvoiceMongo> findAllByRouteDBId(String routeId);
+    Optional<IncomingInvoiceMongo> findByRouteDBId(String routeId);
 }
