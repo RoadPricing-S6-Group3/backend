@@ -19,8 +19,8 @@ public class IncomingRouteController {
     RouteInfoService routeInfoService;
 
     private static final Logger logger = LoggerFactory.getLogger(IncomingRouteController.class);
-    @PostMapping("/submit-raw/{cc}")
-    public ResponseEntity<List<OutGoingRouteDTO>> retrieveRoute(@RequestBody IncomingRouteDTO incoming, @PathVariable(value = "cc")String cc){
+    @PostMapping("/submit-raw")
+    public ResponseEntity<List<OutGoingRouteDTO>> retrieveRoute(@RequestBody IncomingRouteDTO incoming, @RequestParam("cc") String cc){
         logger.info("Received incoming raw-route from country: [ " + cc + " ] [ 🗺️ ]" );
         IncomingRouteDTO recieved = incoming;
         List<OutGoingRouteDTO> outs = routeInfoService.sendProcessRoute(recieved, cc);

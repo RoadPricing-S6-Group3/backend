@@ -84,8 +84,9 @@ public class InvoiceController {
             return ResponseEntity.badRequest().build();
         }
     }
-    @PostMapping("/return-processed/{cc}")
-    public ResponseEntity receiveInvoice(@RequestBody String incomingInvoice, @PathVariable(value = "cc")String cc){
+    @PostMapping("/return-processed")
+    public ResponseEntity receiveInvoice(@RequestBody String incomingInvoice, @RequestParam("cc") String cc){
+        logger.info(incomingInvoice);
         String ccEmoji = "";
         if(cc.equals("nl") || cc.equals("NL")){
             ccEmoji = " 🧀 🇳🇱 ";
@@ -97,7 +98,6 @@ public class InvoiceController {
             ccEmoji = " 💰✨ 🇱🇺";
         }
         logger.info("Received an Incoming Invoice 📄 from country: [ " + cc + ccEmoji +" ]");
-        logger.info(incomingInvoice);
         try{
             IncomingInvoice invoice =  objectMapper.readValue(incomingInvoice, IncomingInvoice.class);
             logger.info("Invoice id: " + "[ " + invoice.getId() + " ]" + "[ 🪪 ]");
