@@ -21,11 +21,12 @@ public class Controller {
 
     private static final Logger logger = LoggerFactory.getLogger(Controller.class);
     @GetMapping("/coord/{coordinatesbegin}/{coordinatesend}")
-    public ResponseEntity<RouteModel> createRoute(@PathVariable("coordinatesbegin")String coordinatesbegin,
+    public ResponseEntity<String> createRoute(@PathVariable("coordinatesbegin")String coordinatesbegin,
                                                   @PathVariable (value = "coordinatesend")String coordinatesend,
                                                   @RequestParam("cc")String cc){
         String cords = coordinatesbegin + ";" + coordinatesend;
         RouteModel routeModel = new RouteModel();
+        String response = "";
         try {
             routeModel = routeService.createRoute(cords);
         } catch (Exception e) {
@@ -33,12 +34,40 @@ public class Controller {
         }
         OutGoingRouteDTO outGoingRouteDTO = outGoingService.createOutGoingRouteDTO(routeModel);
         try{
-            String response = outGoingService.sendToTravelData(outGoingRouteDTO, cc);
-            logger.info("Send route to TravelData");
+            response = outGoingService.sendToTravelData(outGoingRouteDTO, cc);
+
+            logger.info("Sent route to TravelData");
+            logger.info(response);
         }
         catch (Exception e){
             logger.info("Error: " + e);
         }
-        return ResponseEntity.ok().body(routeModel);
+        return ResponseEntity.ok().body(response);
     }
+    @GetMapping("/coord/receivetest/{coordinatesbegin}/{coordinatesend}")
+    public ResponseEntity<String> createTestRaw(@PathVariable("coordinatesbegin")String coordinatesbegin,
+                                              @PathVariable (value = "coordinatesend")String coordinatesend){
+        RouteModel routeModel = null;
+        String cords = coordinatesbegin + ";" + coordinatesend;
+        OutGoingRouteDTO outGoingRouteDTO = null;
+        String submitRaw = "";
+        try {
+            routeModel = routeService.createRoute(cords);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        if (routeModel != null) {
+            outGoingRouteDTO = outGoingService.createOutGoingRouteDTO(routeModel);
+        }
+        if(outGoingRouteDTO != null){
+            submitRaw = outGoingService.createSubmitRaw(outGoingRouteDTO);
+        }
+        if(submitRaw.isEmpty() != true && submitRaw.isBlank() != true && !submitRaw.equals(null)){
+            return ResponseEntity.ok().body(submitRaw);
+        }
+        else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
 }
