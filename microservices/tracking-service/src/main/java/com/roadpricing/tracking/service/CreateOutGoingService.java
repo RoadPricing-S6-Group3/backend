@@ -49,7 +49,7 @@ public class CreateOutGoingService {
         try{
             RestTemplate restTemplate = new RestTemplate();
             HttpHeaders headers = new HttpHeaders();
-            String url = "http://34.140.232.108/api/route/submit-raw?cc=" + cc;
+            String url = createUrlForCountry(cc);
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<OutGoingRouteDTO> outGoingRouteDTOHttpEntity = new HttpEntity<>(dto, headers);
             ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, outGoingRouteDTOHttpEntity, String.class);
@@ -59,6 +59,24 @@ public class CreateOutGoingService {
             logger.info("Error: " + e);
         }
         return toReturn;
+    }
+    private String createUrlForCountry(String cc){
 
+        if(cc.equals("nl") || cc.equals("NL")){
+            String url = "http://34.140.232.108/api/invoice/submit-raw?cc=" + cc.toUpperCase();
+            return url;
+        }
+        else if(cc.equals("be") || cc.equals("BE")){
+            String  url = "https://international.oibss.nl/submit-raw?cc="+cc.toUpperCase();
+            return url;
+        }
+        else if (cc.equals("lux") || cc.equals("LUX") || cc.equals("lu") || cc.equals("LU")){
+            String  url = "http://34.159.70.126/api/submit-raw?cc="+cc.toUpperCase();
+            return url;
+        }
+        else {
+            String url = "N/A";
+            return url;
+        }
     }
 }

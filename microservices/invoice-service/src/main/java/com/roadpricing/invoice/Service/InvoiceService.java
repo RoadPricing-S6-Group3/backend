@@ -93,7 +93,7 @@ public class InvoiceService {
         else if(cc.equals("be") || cc.equals("BE")){
             url = "https://international.oibss.nl/return-processed?cc="+cc.toUpperCase();
         }
-        else if (cc.equals("lux") || cc.equals("LUX")){
+        else if (cc.equals("lux") || cc.equals("LUX") || cc.equals("lu") || cc.equals("LU")){
             url = "http://34.159.70.126/api/return-processed?cc="+cc.toUpperCase();
         }
         return url;
