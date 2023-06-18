@@ -17,7 +17,6 @@ public class PriceDto implements Serializable {
     @Id
     @MongoId
     private String id;
-
     private Boolean inProgress;
     private String routeId;
     private String countryCode;

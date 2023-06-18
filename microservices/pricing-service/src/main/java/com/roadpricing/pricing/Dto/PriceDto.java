@@ -12,12 +12,20 @@ import java.util.List;
 @AllArgsConstructor
 public class PriceDto implements Serializable {
 
+    private String Id;
     private Boolean inProgress;
     private String routeId;
     private String countryCode;
     private InvoiceSegment segment;
 
 
+    public String getId() {
+        return Id;
+    }
+
+    public void setId(String id) {
+        Id = id;
+    }
 
     public String getRouteId() {
         return routeId;
