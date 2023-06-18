@@ -21,6 +21,7 @@ public class Publisher {
             String message = objectMapper.writeValueAsString(outGoingRouteDTO);
             rabbitTemplate.convertAndSend(MQConfig.EXCHANGENAME, MQConfig.ROUTINGKEY, message);
             logger.info("[ ✨ ] " + "Send OutGoingRouteDTO to Queue: " + message + " [ ✨ ]");
+            logger.info(message);
         }
         catch (Exception e){
             logger.error("Error:" + e);
