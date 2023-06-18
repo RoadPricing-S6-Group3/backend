@@ -34,7 +34,6 @@ public class CreateOutGoingService {
         vehicleDTO.setVehicleClassification("L2");
         java.util.Map<Integer, String> coords = routeModel.getCoords();
         Calendar currentTime = Calendar.getInstance();
-        currentTime.
 
         int counter = coords.size();
         Date time = new Date();
